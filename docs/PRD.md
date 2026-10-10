@@ -284,5 +284,5 @@ Da bewusst keine Nutzungsdaten erhoben werden, gilt die Seite als erfolgreich, w
 - ~~Sample-Set~~ → **entschieden:** Salamander Grand Piano V3 (CC BY 3.0), 18 Samples A1–C6 im Kleinterzabstand, ca. 1,4 MB.
 - ~~Tempo-Bereich~~ → **entschieden:** 40–120 Töne pro Minute, Standard 60. Eine Runde umfasst 5 Folgen bzw. Melodien.
 - **Stimmlagen-Grenzen** (F-21: hoch A3–F5, tief A2–F4) mit echten Stimmen im Chor gegenprüfen.
-- **Schreibweise bei 6 Vorzeichen** (F-26): Fis-Dur/dis-Moll oder Ges-Dur/es-Moll festlegen.
+- ~~Schreibweise bei 6 Vorzeichen~~ → **umgesetzt:** Ges-Dur/es-Moll (b-Tonarten sind in der Chorliteratur häufiger); bei Bedarf in `src/lib/noten.ts` umstellbar.
 - **Impressum/Datenschutz:** Anschrift und E-Mail in `src/lib/betreiber.ts` eintragen.
