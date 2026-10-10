@@ -24,5 +24,11 @@
   <a href="https://openfontlicense.org">SIL Open Font License 1.1</a>.
 </p>
 
+<h2>Notenschrift</h2>
+<p>
+  Notenschlüssel, Vorzeichen und Notenköpfe stammen aus <strong>Bravura</strong> (Steinberg Media Technologies GmbH) unter der
+  <a href="https://openfontlicense.org">SIL Open Font License 1.1</a>. Verwendet wird ein umbenannter Auszug („Solmi Noten“).
+</p>
+
 <h2>Quellcode</h2>
 <p>Der Quellcode von solmization steht unter der MIT-Lizenz.</p>

@@ -105,7 +105,7 @@ Stufen und freie Auswahl gelten **für beide Übungen gleichermaßen** – nur s
 | **Ü-H** | Handzeichen singen | Handzeichen erscheinen nacheinander im Tempo | Solmisation vom Blatt (Handzeichen) singen |
 | **Ü-N** | Noten singen | Melodie steht komplett im Notensystem, Marker läuft im Tempo mit | Transfer: hilft die Solmisation beim Singen nach Noten? |
 
-- **F-10** Auf der Seite „Üben“ wählt man oben die Übung, darunter Stufe bzw. freie Auswahl, Stimmlage und Tempo; bei Ü-N zusätzlich Notenschlüssel und Vorzeichen (5.3).
+- **F-10** Auf der Seite „Üben“ wählt man oben die Übung, darunter Stufe bzw. freie Auswahl und Tempo; bei Ü-H die Stimmlage, bei Ü-N Notenschlüssel (bestimmt die Stimmlage) und Vorzeichen (5.3).
 - **F-11** Gemeinsamer Ablauf einer Folge bzw. Melodie: **Kadenz → Anfangston → im Tempo singen → Lösung anhören (optional) → Selbstbewertung**.
 - **F-12** Eine Runde besteht aus **5 Folgen bzw. Melodien**; am Ende folgt eine Zusammenfassung (Anzahl richtig gesungener).
 - **F-13** Länge **3–6 Töne**, abhängig von der Stufe (niedrige Stufen kürzer); nur **gleich lange Notenwerte**, kein Rhythmus.
@@ -126,7 +126,7 @@ Stufen und freie Auswahl gelten **für beide Übungen gleichermaßen** – nur s
 
 ### 5.3 Notation (nur Ü-N)
 
-- **F-25** **Notenschlüssel** wählbar: *Violinschlüssel*, *Violinschlüssel oktaviert* (Tenor), *Bassschlüssel*. Vorbelegung nach Stimmlage (hoch → Violin, tief → Bass).
+- **F-25** **Notenschlüssel** wählbar: *Violinschlüssel*, *Violinschlüssel oktaviert* (Tenor), *Bassschlüssel*. Der Schlüssel legt bei Ü-N zugleich die Stimmlage fest (Violin → hoch; Violin oktaviert und Bass → tief), damit die Melodie im System liegt; eine separate Stimmlagen-Auswahl entfällt bei Ü-N. Beim Wechsel der Stimmlage in Ü-H wird der Schlüssel passend vorbelegt (hoch → Violin, tief → Bass).
 - **F-26** **Vorzeichen** einstellbar in vier Stufen: *nur C-Dur/a-Moll* · *bis 2 Vorzeichen* (Standard) · *bis 4 Vorzeichen* · *bis 6 Vorzeichen*. Bei 6 Vorzeichen wird nur eine Schreibweise angeboten (Fis-Dur/dis-Moll **oder** Ges-Dur/es-Moll, nicht beide).
 - **F-27** Passt eine Stufe mit der gewählten Vorzeichen-Einstellung nicht in den Tonraum der Stimmlage, wird der **Tonraum automatisch minimal erweitert** (um so wenige Halbtöne wie nötig).
 - **F-28** Die Darstellung passt ohne horizontales Scrollen auf ein Smartphone im Hochformat (bis 6 Noten plus Schlüssel und Vorzeichen).

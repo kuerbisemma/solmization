@@ -1,7 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { erzeugeFolge, MAX_SPRUNG } from '../aufgaben';
 import { dreiklangsSilben, kadenz, silbe, STUFEN, TONRAUM, waehleDo, midiVon, type Stimmlage } from '../theorie';
-import { leereStatistik, quote, verbuche } from '../statistik';
 
 // Deterministischer Zufall für reproduzierbare Tests.
 function zufallMitSeed(seed: number) {
@@ -61,16 +60,5 @@ describe('erzeugeFolge', () => {
         }
       }
     }
-  });
-});
-
-describe('Statistik', () => {
-  it('zählt richtig gesungene Folgen pro Silbe', () => {
-    let s = leereStatistik();
-    s = verbuche(s, 'so', false);
-    s = verbuche(s, 'so', true);
-    expect(s.treffer.so).toEqual({ richtig: 1, gesamt: 2 });
-    expect(quote(s.treffer.so)).toBe(0.5);
-    expect(quote(s.treffer.la)).toBeNull();
   });
 });

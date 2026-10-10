@@ -21,7 +21,9 @@ npm run preview    # Build lokal ansehen
 | `docs/PRD.md` | Produktanforderungen |
 | `docs/server.md` | Anforderungen und Beispielkonfiguration für den Webserver |
 | `src/lib/theorie.ts` | Silben, Stufen, Tonarten, Kadenzen |
-| `src/lib/aufgaben.ts` | Übungsrunden und singbare Zeichenfolgen |
+| `src/lib/aufgaben.ts` | singbare Folgen bzw. Melodien |
+| `src/lib/noten.ts` | Tonarten, Vorzeichen, Schreibweise und Position der Noten |
+| `src/lib/statistik.ts` | Bewertungen mit Datum, Quoten, Wochenverlauf |
 | `src/lib/klang.ts` | Tonausgabe (Web Audio, Klavier-Samples) |
 | `src/lib/texte.ts` | alle Oberflächentexte |
 | `src/lib/betreiber.ts` | Angaben für Impressum und Datenschutz |
@@ -31,4 +33,4 @@ npm run preview    # Build lokal ansehen
 
 ## Lizenzen
 
-Code: MIT · Handzeichen: CC BY 4.0 · Klavier: Salamander Grand Piano V3 (Alexander Holm), CC BY 3.0 · Schriften: SIL OFL 1.1
+Code: MIT · Handzeichen: CC BY 4.0 · Klavier: Salamander Grand Piano V3 (Alexander Holm), CC BY 3.0 · Schriften und Notenschrift (Auszug aus Bravura, umbenannt): SIL OFL 1.1

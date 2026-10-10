@@ -89,14 +89,25 @@ export type Zufall = () => number;
 
 /**
  * Wählt „do“ (als MIDI-Nummer) zufällig so, dass alle Silben der Auswahl im Tonraum der Stimmlage liegen.
+ * Mit `erlaubteKlassen` nur Tonarten, deren do in dieser Liste liegt (Vorzeichen-Einstellung); passt dann keine,
+ * wird der Tonraum um so wenige Halbtöne wie nötig nach beiden Seiten erweitert.
  */
-export function waehleDo(ids: readonly SilbenId[], stimmlage: Stimmlage, zufall: Zufall = Math.random): number {
+export function waehleDo(
+  ids: readonly SilbenId[],
+  stimmlage: Stimmlage,
+  zufall: Zufall = Math.random,
+  erlaubteKlassen?: readonly number[],
+): number {
   const halbtoene = ids.map((id) => silbe(id).halbton);
   const { tief, hoch } = TONRAUM[stimmlage];
-  const min = tief - Math.min(...halbtoene);
-  const max = hoch - Math.max(...halbtoene);
-  if (max < min) throw new Error('Auswahl passt nicht in den Tonraum');
-  return min + Math.floor(zufall() * (max - min + 1));
+  for (let erweiterung = 0; erweiterung <= 12; erweiterung++) {
+    const kandidaten: number[] = [];
+    for (let d = tief - erweiterung - Math.min(...halbtoene); d <= hoch + erweiterung - Math.max(...halbtoene); d++) {
+      if (!erlaubteKlassen || erlaubteKlassen.includes(((d % 12) + 12) % 12)) kandidaten.push(d);
+    }
+    if (kandidaten.length > 0) return kandidaten[Math.floor(zufall() * kandidaten.length)];
+  }
+  throw new Error('Auswahl passt nicht in den Tonraum');
 }
 
 export function midiVon(doMidi: number, id: SilbenId): number {

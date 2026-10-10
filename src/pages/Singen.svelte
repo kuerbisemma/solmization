@@ -1,10 +1,12 @@
 <script lang="ts">
   import HandFigur from '../components/HandFigur.svelte';
   import IosHinweis from '../components/IosHinweis.svelte';
+  import Notenzeile from '../components/Notenzeile.svelte';
   import { erzeugeFolge, FOLGEN_PRO_RUNDE } from '../lib/aufgaben';
   import { spieleFolge, spieleKadenz, spieleTon, stoppe } from '../lib/klang';
   import { gehe } from '../lib/router.svelte';
-  import { verbuche } from '../lib/statistik';
+  import { erlaubteDoKlassen, tonartName } from '../lib/noten';
+  import { heute, verbuche } from '../lib/statistik';
   import { istEigeneEingabe } from '../lib/tasten';
   import { T } from '../lib/texte';
   import { folgenLaengeFuer, kadenz, midiVon, silbe, sortiert, STUFEN, waehleDo, type SilbenId } from '../lib/theorie';
@@ -13,6 +15,9 @@
   const optionen = sortiert(auswahl.silben);
   const gueltig = optionen.length >= 2;
   if (!gueltig) gehe('ueben');
+  const uebung = einstellungen.uebung;
+  const noten = uebung === 'noten';
+  const erlaubt = noten ? erlaubteDoKlassen(einstellungen.vorzeichen) : undefined;
   const laenge = auswahl.stufe ? STUFEN[auswahl.stufe - 1].folgenLaenge : folgenLaengeFuer(optionen.length);
 
   type Phase = 'bereit' | 'zeigen' | 'bewerten' | 'fertig';
@@ -23,13 +28,13 @@
   let hervorgehoben = $state<number | null>(null);
   let loesungGezeigt = $state(false);
   let bewertungen = $state<boolean[]>([]);
-  let doMidi = 60;
+  let doMidi = $state(60);
   let lauf = 0;
   let timer: number[] = [];
 
   function neueFolge() {
     folge = gueltig ? erzeugeFolge(optionen, auswahl.modus, laenge) : [];
-    doMidi = waehleDo(optionen, einstellungen.stimmlage);
+    doMidi = waehleDo(optionen, einstellungen.stimmlage, Math.random, erlaubt);
     sichtbar = 0;
     hervorgehoben = null;
     loesungGezeigt = false;
@@ -72,9 +77,7 @@
   function bewerte(gut: boolean | null) {
     abbrechen();
     if (gut !== null) {
-      let s = statistik.wert;
-      for (const id of folge) s = verbuche(s, id, gut);
-      aktualisiereStatistik(s);
+      aktualisiereStatistik(verbuche(statistik.wert, { tag: heute(), uebung, silben: [...folge], richtig: gut }));
       bewertungen.push(gut);
     }
     if (nummer >= FOLGEN_PRO_RUNDE) {
@@ -114,23 +117,36 @@
 <svelte:window onkeydown={taste} />
 
 {#if gueltig}
-  <h1>{T.auswahl.titel}</h1>
+  <h1>{T.uebungen[uebung].titel}</h1>
 
   {#if phase !== 'fertig'}
     <p class="fortschritt">{T.singen.folge(nummer, FOLGEN_PRO_RUNDE)}</p>
-    <p class="hinweis">{T.singen.anleitung}</p>
+    <p class="hinweis">{T.uebungen[uebung].anleitung}</p>
     <IosHinweis />
 
-    <ol class="folge karte" aria-label="Zeichenfolge">
-      {#each folge as id, i (i)}
-        <li class:sichtbar={i < sichtbar} class:aktiv={hervorgehoben === i} aria-hidden={i >= sichtbar}>
-          {#if i < sichtbar}
-            <HandFigur {id} />
-            {#if loesungGezeigt}<span class="silbe">{id}</span>{/if}
-          {/if}
-        </li>
-      {/each}
-    </ol>
+    {#if noten}
+      <div class="karte notenblatt">
+        <Notenzeile
+          {folge}
+          {doMidi}
+          schluessel={einstellungen.schluessel}
+          aktiv={hervorgehoben ?? (phase === 'zeigen' && sichtbar > 0 ? sichtbar - 1 : null)}
+          silbenZeigen={loesungGezeigt}
+        />
+        {#if loesungGezeigt}<p class="tonart">{tonartName(doMidi, auswahl.modus)}</p>{/if}
+      </div>
+    {:else}
+      <ol class="folge karte" aria-label="Zeichenfolge">
+        {#each folge as id, i (i)}
+          <li class:sichtbar={i < sichtbar} class:aktiv={hervorgehoben === i} aria-hidden={i >= sichtbar}>
+            {#if i < sichtbar}
+              <HandFigur {id} />
+              {#if loesungGezeigt}<span class="silbe">{id}</span>{/if}
+            {/if}
+          </li>
+        {/each}
+      </ol>
+    {/if}
 
     {#if phase === 'bereit'}
       <button type="button" class="knopf" onclick={starte}>🔊 {T.singen.start}</button>
@@ -163,7 +179,7 @@
   {/if}
 
   <p class="nur-sr" aria-live="polite">
-    {#if sichtbar > 0 && phase === 'zeigen'}{silbe(folge[sichtbar - 1]).gesprochen}{/if}
+    {#if !noten && sichtbar > 0 && phase === 'zeigen'}{silbe(folge[sichtbar - 1]).gesprochen}{/if}
   </p>
 {/if}
 
@@ -206,6 +222,15 @@
     font-family: 'Roboto Slab', Georgia, serif;
     font-weight: 800;
     color: var(--primaer);
+  }
+  .notenblatt {
+    margin: 12px 0;
+  }
+  .tonart {
+    text-align: center;
+    font-weight: 700;
+    color: var(--primaer);
+    margin: 4px 0 0;
   }
   .ergebnis {
     font-size: 1.4rem;

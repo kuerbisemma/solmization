@@ -1,7 +1,9 @@
 <script lang="ts">
+  import type { Schluessel, VorzeichenStufe } from '../lib/noten';
   import { gehe } from '../lib/router.svelte';
+  import { UEBUNGEN } from '../lib/statistik';
   import { T } from '../lib/texte';
-  import { SILBEN, sortiert, STUFEN, type SilbenId } from '../lib/theorie';
+  import { SILBEN, sortiert, STUFEN, type SilbenId, type Stimmlage } from '../lib/theorie';
   import { auswahl, einstellungen, speichereAuswahl, speichereEinstellungen, TEMPO } from '../lib/zustand.svelte';
 
   function waehleStufe(nr: number | null) {
@@ -20,6 +22,19 @@
   }
 
   const gueltig = $derived(auswahl.silben.length >= 2);
+  const SCHLUESSEL: Schluessel[] = ['violin', 'tenor', 'bass'];
+  const VORZEICHEN: VorzeichenStufe[] = [0, 2, 4, 6];
+
+  /** Schlüssel und Stimmlage gehören zusammen: Violin = hohe Stimme, Violin oktaviert und Bass = tiefe Stimme. */
+  function waehleStimmlage(lage: Stimmlage) {
+    einstellungen.stimmlage = lage;
+    einstellungen.schluessel = lage === 'hoch' ? 'violin' : 'bass';
+  }
+
+  function waehleSchluessel(s: Schluessel) {
+    einstellungen.schluessel = s;
+    einstellungen.stimmlage = s === 'violin' ? 'hoch' : 'tief';
+  }
 
   function starte() {
     speichereAuswahl();
@@ -28,8 +43,20 @@
   }
 </script>
 
-<h1>{T.auswahl.titel}</h1>
-<p>{T.auswahl.text}</p>
+<h1>{T.nav.ueben}</h1>
+
+<fieldset>
+  <legend>{T.auswahl.uebung}</legend>
+  <div class="optionen uebungen">
+    {#each UEBUNGEN as u (u)}
+      <label class="karte option" class:gewaehlt={einstellungen.uebung === u}>
+        <input type="radio" name="uebung" value={u} bind:group={einstellungen.uebung} />
+        <strong>{T.uebungen[u].titel}</strong>
+        <span class="hinweis">{T.uebungen[u].text}</span>
+      </label>
+    {/each}
+  </div>
+</fieldset>
 
 <fieldset>
   <legend>{T.auswahl.stufe}</legend>
@@ -71,17 +98,44 @@
   {/if}
 </fieldset>
 
+{#if einstellungen.uebung === 'handzeichen'}
 <fieldset>
   <legend>{T.auswahl.stimmlage}</legend>
   <div class="chips">
     <label class="chip" class:an={einstellungen.stimmlage === 'hoch'}>
-      <input type="radio" name="lage" value="hoch" bind:group={einstellungen.stimmlage} />{T.auswahl.hoch}
+      <input type="radio" name="lage" checked={einstellungen.stimmlage === 'hoch'} onchange={() => waehleStimmlage('hoch')} />{T.auswahl.hoch}
     </label>
     <label class="chip" class:an={einstellungen.stimmlage === 'tief'}>
-      <input type="radio" name="lage" value="tief" bind:group={einstellungen.stimmlage} />{T.auswahl.tief}
+      <input type="radio" name="lage" checked={einstellungen.stimmlage === 'tief'} onchange={() => waehleStimmlage('tief')} />{T.auswahl.tief}
     </label>
   </div>
 </fieldset>
+{/if}
+
+{#if einstellungen.uebung === 'noten'}
+  <fieldset>
+    <legend>{T.auswahl.schluessel}</legend>
+    <p class="hinweis">{T.auswahl.schluesselHinweis}</p>
+    <div class="chips">
+      {#each SCHLUESSEL as s (s)}
+        <label class="chip" class:an={einstellungen.schluessel === s}>
+          <input type="radio" name="schluessel" checked={einstellungen.schluessel === s} onchange={() => waehleSchluessel(s)} />{T.auswahl.schluesselNamen[s]}
+        </label>
+      {/each}
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>{T.auswahl.vorzeichen}</legend>
+    <div class="chips">
+      {#each VORZEICHEN as v (v)}
+        <label class="chip" class:an={einstellungen.vorzeichen === v}>
+          <input type="radio" name="vorzeichen" value={v} bind:group={einstellungen.vorzeichen} />{T.auswahl.vorzeichenNamen[v]}
+        </label>
+      {/each}
+    </div>
+  </fieldset>
+{/if}
 
 <fieldset>
   <legend>{T.auswahl.tempo}</legend>
@@ -109,6 +163,9 @@
   .optionen {
     display: grid;
     gap: 8px;
+  }
+  .uebungen {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
   .stufen {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

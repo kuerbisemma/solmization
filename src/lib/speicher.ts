@@ -11,6 +11,16 @@ export function lade<T>(schluessel: string, standard: T): T {
   }
 }
 
+/** Gespeicherten Wert unverändert laden (z. B. für Migrationen), null wenn nicht vorhanden. */
+export function ladeRoh(schluessel: string): unknown {
+  try {
+    const roh = localStorage.getItem(PRAEFIX + schluessel);
+    return roh === null ? null : JSON.parse(roh);
+  } catch {
+    return null;
+  }
+}
+
 export function speichere(schluessel: string, wert: unknown): void {
   try {
     localStorage.setItem(PRAEFIX + schluessel, JSON.stringify(wert));

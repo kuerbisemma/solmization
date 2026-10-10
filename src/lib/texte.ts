@@ -2,7 +2,7 @@
 
 export const T = {
   marke: 'solmization',
-  claim: 'Handzeichen vom Blatt singen – ohne Anmeldung, auch offline.',
+  claim: 'Handzeichen und Noten vom Blatt singen – ohne Anmeldung, auch offline.',
   projektVon: 'ein Projekt von',
 
   nav: {
@@ -20,13 +20,25 @@ export const T = {
   start: {
     einfuehrung: 'Neu hier? Was Solmisation ist und wie die Handzeichen funktionieren.',
     tafel: 'Alle Handzeichen auf einen Blick – antippen zum Anhören.',
-    ueben: 'Handzeichen erscheinen nacheinander – du singst sie vom Blatt.',
-    statistik: 'Bei welchen Silben du schon sicher bist.',
+    ueben: 'Handzeichen oder Noten vom Blatt singen.',
+    statistik: 'Wie sicher du bist – und ob dir die Solmisation beim Notensingen hilft.',
+  },
+
+  uebungen: {
+    handzeichen: {
+      titel: 'Handzeichen singen',
+      text: 'Handzeichen erscheinen nacheinander – sing sie mit, wie in der Chorprobe.',
+      anleitung: 'Hör die Orientierung und den Anfangston, dann sing die Zeichen mit, sobald sie erscheinen.',
+    },
+    noten: {
+      titel: 'Noten singen',
+      text: 'Dieselbe Art Melodie in Notenschrift. So siehst du, ob dir die Solmisation beim Notensingen hilft.',
+      anleitung: 'Hör die Orientierung und den Anfangston, dann sing die Noten im Tempo der Markierung. Tipp: Such zuerst das do.',
+    },
   },
 
   auswahl: {
-    titel: 'Zeichenfolge singen',
-    text: 'Du hörst eine Kadenz und den Anfangston. Dann erscheinen Handzeichen nacheinander – sing sie mit und prüf dich anschließend selbst.',
+    uebung: 'Übung',
     stufe: 'Stufe',
     frei: 'Freie Auswahl',
     freiHinweis: 'Mindestens zwei Silben wählen.',
@@ -36,13 +48,17 @@ export const T = {
     hoch: 'hohe Stimme',
     tief: 'tiefe Stimme',
     tempo: 'Tempo',
-    tempoEinheit: 'Zeichen pro Minute',
+    tempoEinheit: 'Töne pro Minute',
+    schluessel: 'Notenschlüssel',
+    schluesselNamen: { violin: 'Violin', tenor: 'Violin oktaviert (Tenor)', bass: 'Bass' },
+    schluesselHinweis: 'Der Schlüssel legt auch die Stimmlage fest: Violin für hohe Stimmen, Violin oktaviert und Bass für tiefe.',
+    vorzeichen: 'Vorzeichen',
+    vorzeichenNamen: { 0: 'nur C-Dur / a-Moll', 2: 'bis 2', 4: 'bis 4', 6: 'bis 6' },
     los: 'Los geht’s',
   },
 
   singen: {
     folge: (n: number, von: number) => `Folge ${n} von ${von}`,
-    anleitung: 'Hör die Orientierung und den Anfangston, dann sing die Zeichen mit, sobald sie erscheinen.',
     start: 'Folge starten',
     anfangston: 'Anfangston',
     loesung: 'Lösung anhören',
@@ -51,7 +67,7 @@ export const T = {
     nichtGanz: 'Nicht ganz',
     ohneBewertung: 'Weiter ohne Bewertung',
     auswertung: 'Auswertung',
-    ergebnis: (r: number, n: number) => `${r} von ${n} Folgen richtig gesungen`,
+    ergebnis: (r: number, n: number) => `${r} von ${n} richtig gesungen`,
     nochmal: 'Neue Runde',
     zurAuswahl: 'Einstellungen ändern',
     tastenHinweis: 'Tasten: Leertaste startet, L = Lösung, A = Anfangston, 1 = richtig, 2 = nicht ganz, 3 = ohne Bewertung.',
@@ -59,8 +75,12 @@ export const T = {
 
   statistik: {
     leer: 'Noch keine Daten – sing einfach los!',
-    silbe: 'Silbe',
-    quote: 'richtig gesungen',
+    gesamt: 'Gesamtquote',
+    keineDaten: 'noch keine Daten',
+    silben: 'Pro Silbe',
+    verlauf: 'Verlauf pro Woche',
+    verlaufHinweis: 'Liegt „Noten singen“ mit der Zeit näher an „Handzeichen singen“, hilft dir die Solmisation beim Notensingen.',
+    folgen: (n: number) => `${n} ${n === 1 ? 'Folge' : 'Folgen'}`,
     erklaerung: 'Jede Silbe einer bewerteten Folge zählt mit – so siehst du, bei welchen Tönen es noch hakt.',
     zuruecksetzen: 'Statistik zurücksetzen',
     sicher: 'Statistik wirklich löschen?',

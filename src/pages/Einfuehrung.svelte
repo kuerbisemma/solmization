@@ -43,6 +43,13 @@
   höher“ (<strong>do'</strong> = hohes do).
 </p>
 
+<h2>Und mit Noten?</h2>
+<p>
+  In der Übung „Noten singen“ steht eine gleich gebaute Melodie in Notenschrift. Such zuerst anhand der Vorzeichen das do – danach
+  denkst du in Silben weiter. Die Statistik stellt beide Übungen nebeneinander: So siehst du, ob dir die Solmisation beim
+  Notensingen hilft.
+</p>
+
 <h2>So übst du</h2>
 <ol>
   <li>Schau dir die <a href={href('tafel')}>Handzeichen-Tafel</a> an und hör dir die Töne an.</li>
