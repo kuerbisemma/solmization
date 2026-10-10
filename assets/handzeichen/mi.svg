@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t d">
+  <title id="t">Handzeichen mi</title>
+  <desc id="d">mi: flache Hand waagerecht, Handfläche zeigt nach unten.</desc>
+  <style>
+    .hz-f { fill: var(--hz-fuellung, #F4F1ED); stroke: var(--hz-linie, #275D6F); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+    .hz-l { fill: none; stroke: var(--hz-linie, #275D6F); stroke-width: 3; stroke-linecap: round; }
+    @media (prefers-color-scheme: dark) {
+      .hz-f { fill: var(--hz-fuellung, #1A2630); stroke: var(--hz-linie, #6FA8BE); }
+      .hz-l { stroke: var(--hz-linie, #6FA8BE); }
+    }
+  </style>
+  <g transform="rotate(0 70 110)"><rect class="hz-f" x="-90" y="94" width="168" height="32" rx="14"/></g>
+  <g transform="translate(70 110)">
+    <path class="hz-f" d="M -4 -17 C 20 -21 40 -23 60 -20 L 104 -13 Q 118 -8 106 1 L 64 7 C 46 11 30 19 12 19 L -4 17 Z"/>
+    <path class="hz-l" d="M 60 -20 Q 63 -7 64 7"/>
+    <path class="hz-l" d="M 66 -6 L 100 -5"/>
+    <path class="hz-l" d="M 10 8 C 26 6 42 3 56 -2"/></g>
+</svg>

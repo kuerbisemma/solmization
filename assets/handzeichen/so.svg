@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t d">
+  <title id="t">Handzeichen so</title>
+  <desc id="d">so: flache Hand senkrecht, Handfläche zum Körper; zu sehen ist der Handrücken, die Finger zeigen zur Seite, der Daumen nach oben.</desc>
+  <style>
+    .hz-f { fill: var(--hz-fuellung, #F4F1ED); stroke: var(--hz-linie, #275D6F); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+    .hz-l { fill: none; stroke: var(--hz-linie, #275D6F); stroke-width: 3; stroke-linecap: round; }
+    @media (prefers-color-scheme: dark) {
+      .hz-f { fill: var(--hz-fuellung, #1A2630); stroke: var(--hz-linie, #6FA8BE); }
+      .hz-l { stroke: var(--hz-linie, #6FA8BE); }
+    }
+  </style>
+  <g transform="rotate(-55 78 140)"><rect class="hz-f" x="-82" y="124" width="168" height="32" rx="14"/></g>
+  <g transform="translate(78 110)">
+    <rect class="hz-f" x="20" y="-34" width="80" height="16" rx="8"/>
+    <rect class="hz-f" x="20" y="-18" width="86" height="16" rx="8"/>
+    <rect class="hz-f" x="20" y="-2" width="80" height="16" rx="8"/>
+    <rect class="hz-f" x="20" y="14" width="66" height="15" rx="7.5"/>
+    <rect class="hz-f" x="-14" y="-38" width="54" height="72" rx="16"/>
+    <rect class="hz-f" x="-4" y="-58" width="17" height="44" rx="8.5" transform="rotate(28 4 -36)"/>
+  </g>
+</svg>

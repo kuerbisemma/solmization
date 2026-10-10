@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Handzeichen-Abnahme</title>
+<style>
+  :root { --bg: #F4F1ED; --fg: #1A2630; --accent: #275D6F; --card: #fff; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #0D1A22; --fg: #F4F1ED; --accent: #6FA8BE; --card: #1A2630; } }
+  body { margin: 0; padding: 16px; background: var(--bg); color: var(--fg); font-family: 'Segoe UI', Arial, sans-serif; }
+  h1, h2 { color: var(--accent); font-family: 'Roboto Slab', Georgia, serif; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; }
+  figure { margin: 0; background: var(--card); border-radius: 12px; padding: 12px; }
+  figure img { width: 100%; display: block; }
+  figcaption { font-size: 0.9rem; }
+  figcaption b { font-size: 1.3rem; color: var(--accent); display: block; }
+  .leiter { list-style: none; padding: 0; max-width: 420px; }
+  .leiter li { display: flex; align-items: center; gap: 12px; }
+  .leiter img { width: 56px; height: 56px; }
+  .leiter b { width: 3ch; color: var(--accent); font-size: 1.2rem; }
+  .leiter .bar { height: 6px; background: var(--accent); border-radius: 3px; opacity: .5; }
+</style>
+</head>
+<body>
+<h1>Handzeichen – fachliche Abnahme</h1>
+<p>Rechte Hand aus Sicht des Gegenübers. Bitte jedes Zeichen auf Form und Ausrichtung prüfen.</p>
+<div class="grid">
+  <figure><img src="do.svg" alt=""><figcaption><b>do</b>geschlossene Faust, Daumen liegt quer über den Fingern.</figcaption></figure>
+  <figure><img src="re.svg" alt=""><figcaption><b>re</b>flache Hand, schräg nach oben geneigt, Handfläche zeigt nach unten.</figcaption></figure>
+  <figure><img src="mi.svg" alt=""><figcaption><b>mi</b>flache Hand waagerecht, Handfläche zeigt nach unten.</figcaption></figure>
+  <figure><img src="fa.svg" alt=""><figcaption><b>fa</b>Faust, der Daumen zeigt nach unten.</figcaption></figure>
+  <figure><img src="so.svg" alt=""><figcaption><b>so</b>flache Hand senkrecht, Handfläche zum Körper; zu sehen ist der Handrücken, die Finger zeigen zur Seite, der Daumen nach oben.</figcaption></figure>
+  <figure><img src="la.svg" alt=""><figcaption><b>la</b>Hand hängt locker vom Handgelenk herab, Handfläche zeigt nach unten, Finger zeigen zum Boden.</figcaption></figure>
+  <figure><img src="ti.svg" alt=""><figcaption><b>ti</b>Faust, der Zeigefinger zeigt schräg nach oben.</figcaption></figure>
+</div>
+<h2>Höhenleiter</h2>
+<p>Die Höhe der Hand gehört zum Zeichen (do etwa Bauchhöhe, do' etwa Stirnhöhe; tiefe Oktave unterhalb des Bauchs).</p>
+<ul class="leiter">
+  <li><b>do'</b><img src="do.svg" alt="Handzeichen do'"><span class="bar" style="width:242px"></span></li>
+  <li><b>ti</b><img src="ti.svg" alt="Handzeichen ti"><span class="bar" style="width:220px"></span></li>
+  <li><b>la</b><img src="la.svg" alt="Handzeichen la"><span class="bar" style="width:198px"></span></li>
+  <li><b>so</b><img src="so.svg" alt="Handzeichen so"><span class="bar" style="width:176px"></span></li>
+  <li><b>fa</b><img src="fa.svg" alt="Handzeichen fa"><span class="bar" style="width:154px"></span></li>
+  <li><b>mi</b><img src="mi.svg" alt="Handzeichen mi"><span class="bar" style="width:132px"></span></li>
+  <li><b>re</b><img src="re.svg" alt="Handzeichen re"><span class="bar" style="width:110px"></span></li>
+  <li><b>do</b><img src="do.svg" alt="Handzeichen do"><span class="bar" style="width:88px"></span></li>
+  <li><b>ti,</b><img src="ti.svg" alt="Handzeichen ti,"><span class="bar" style="width:66px"></span></li>
+  <li><b>la,</b><img src="la.svg" alt="Handzeichen la,"><span class="bar" style="width:44px"></span></li>
+  <li><b>so,</b><img src="so.svg" alt="Handzeichen so,"><span class="bar" style="width:22px"></span></li>
+</ul>
+</body>
+</html>

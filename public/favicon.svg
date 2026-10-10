@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs><clipPath id="k"><rect width="200" height="200" rx="44"/></clipPath></defs>
+  <rect width="200" height="200" rx="44" fill="#275D6F"/>
+  <g clip-path="url(#k)"><g transform="translate(18 22) scale(0.82)">  <g transform="rotate(-55 78 140)"><rect fill="#F4F1ED" stroke="#275D6F" stroke-width="3.5" stroke-linejoin="round" x="-82" y="124" width="168" height="32" rx="14"/></g>
+  <g transform="translate(78 110)">
+    <rect fill="#F4F1ED" stroke="#275D6F" stroke-width="3.5" stroke-linejoin="round" x="20" y="-34" width="80" height="16" rx="8"/>
+    <rect fill="#F4F1ED" stroke="#275D6F" stroke-width="3.5" stroke-linejoin="round" x="20" y="-18" width="86" height="16" rx="8"/>
+    <rect fill="#F4F1ED" stroke="#275D6F" stroke-width="3.5" stroke-linejoin="round" x="20" y="-2" width="80" height="16" rx="8"/>
+    <rect fill="#F4F1ED" stroke="#275D6F" stroke-width="3.5" stroke-linejoin="round" x="20" y="14" width="66" height="15" rx="7.5"/>
+    <rect fill="#F4F1ED" stroke="#275D6F" stroke-width="3.5" stroke-linejoin="round" x="-14" y="-38" width="54" height="72" rx="16"/>
+    <rect fill="#F4F1ED" stroke="#275D6F" stroke-width="3.5" stroke-linejoin="round" x="-4" y="-58" width="17" height="44" rx="8.5" transform="rotate(28 4 -36)"/>
+  </g></g></g>
+</svg>

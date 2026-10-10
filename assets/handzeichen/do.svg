@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" role="img" aria-labelledby="t d">
+  <title id="t">Handzeichen do</title>
+  <desc id="d">do: geschlossene Faust, Daumen liegt quer über den Fingern.</desc>
+  <style>
+    .hz-f { fill: var(--hz-fuellung, #F4F1ED); stroke: var(--hz-linie, #275D6F); stroke-width: 4; stroke-linejoin: round; stroke-linecap: round; }
+    .hz-l { fill: none; stroke: var(--hz-linie, #275D6F); stroke-width: 3; stroke-linecap: round; }
+    @media (prefers-color-scheme: dark) {
+      .hz-f { fill: var(--hz-fuellung, #1A2630); stroke: var(--hz-linie, #6FA8BE); }
+      .hz-l { stroke: var(--hz-linie, #6FA8BE); }
+    }
+  </style>
+  <g transform="rotate(-90 100 128)"><rect class="hz-f" x="-60" y="112" width="168" height="32" rx="14"/></g>
+  <g transform="translate(100 100)">
+    <rect class="hz-f" x="-34" y="-32" width="68" height="64" rx="18"/>
+    <path class="hz-l" d="M 16 -30 Q 6 0 16 30"/>
+    <path class="hz-l" d="M 17 -14 L 33 -14 M 17 1 L 34 1 M 17 16 L 33 16"/>
+    <rect class="hz-f" x="-26" y="-36" width="50" height="17" rx="8.5" transform="rotate(8 0 -28)"/></g>
+</svg>

@@ -1,0 +1,201 @@
+<script lang="ts">
+  import HandFigur from '../components/HandFigur.svelte';
+  import IosHinweis from '../components/IosHinweis.svelte';
+  import { erzeugeFolge } from '../lib/aufgaben';
+  import { spieleFolge, spieleKadenz, spieleTon, stoppe } from '../lib/klang';
+  import { gehe } from '../lib/router.svelte';
+  import { verbuche } from '../lib/statistik';
+  import { T } from '../lib/texte';
+  import { folgenLaengeFuer, kadenz, midiVon, silbe, sortiert, STUFEN, waehleDo, type SilbenId } from '../lib/theorie';
+  import { aktualisiereStatistik, auswahl, einstellungen, statistik } from '../lib/zustand.svelte';
+
+  const FOLGEN_PRO_RUNDE = 5;
+
+  const optionen = sortiert(auswahl.silben);
+  const gueltig = auswahl.typ === 'singen' && optionen.length >= 2;
+  if (!gueltig) gehe('ueben');
+  const laenge = auswahl.stufe ? STUFEN[auswahl.stufe - 1].folgenLaenge : folgenLaengeFuer(optionen.length);
+
+  type Phase = 'bereit' | 'zeigen' | 'bewerten' | 'fertig';
+  let phase = $state<Phase>('bereit');
+  let nummer = $state(1);
+  let folge = $state<SilbenId[]>([]);
+  let sichtbar = $state(0);
+  let hervorgehoben = $state<number | null>(null);
+  let loesungGezeigt = $state(false);
+  let bewertungen = $state<boolean[]>([]);
+  let doMidi = 60;
+  let lauf = 0;
+  let timer: number[] = [];
+
+  function neueFolge() {
+    folge = gueltig ? erzeugeFolge(optionen, auswahl.modus, laenge) : [];
+    doMidi = waehleDo(optionen, einstellungen.stimmlage);
+    sichtbar = 0;
+    hervorgehoben = null;
+    loesungGezeigt = false;
+  }
+  neueFolge();
+
+  function abbrechen() {
+    lauf++;
+    timer.forEach(clearTimeout);
+    timer = [];
+    stoppe();
+  }
+
+  const midis = () => folge.map((id) => midiVon(doMidi, id));
+  const anfangston = () => spieleTon(midis()[0], 1.5);
+
+  async function starte() {
+    abbrechen();
+    const meinLauf = lauf;
+    phase = 'zeigen';
+    await spieleKadenz(kadenz(doMidi, auswahl.modus, einstellungen.stimmlage));
+    if (meinLauf !== lauf) return;
+    await anfangston();
+    if (meinLauf !== lauf) return;
+    const proZeichen = 60_000 / einstellungen.tempo;
+    folge.forEach((_, i) => {
+      timer.push(window.setTimeout(() => (sichtbar = i + 1), i * proZeichen));
+    });
+    timer.push(window.setTimeout(() => (phase = 'bewerten'), folge.length * proZeichen));
+  }
+
+  async function loesung() {
+    abbrechen();
+    sichtbar = folge.length;
+    loesungGezeigt = true;
+    await spieleFolge(midis(), 60 / einstellungen.tempo, (i) => (hervorgehoben = i));
+    hervorgehoben = null;
+  }
+
+  function bewerte(gut: boolean | null) {
+    abbrechen();
+    if (gut !== null) {
+      let s = statistik.wert;
+      for (const id of folge) s = verbuche(s, 'singen', id, gut);
+      aktualisiereStatistik(s);
+      bewertungen.push(gut);
+    }
+    if (nummer >= FOLGEN_PRO_RUNDE) {
+      phase = 'fertig';
+      return;
+    }
+    nummer += 1;
+    neueFolge();
+    void starte();
+  }
+
+  function nochmal() {
+    nummer = 1;
+    bewertungen = [];
+    neueFolge();
+    void starte();
+  }
+
+  $effect(() => abbrechen);
+</script>
+
+{#if gueltig}
+  <h1>{T.uebungen.singen.titel}</h1>
+
+  {#if phase !== 'fertig'}
+    <p class="fortschritt">{T.singen.folge(nummer, FOLGEN_PRO_RUNDE)}</p>
+    <p class="hinweis">{T.singen.anleitung}</p>
+    <IosHinweis />
+
+    <ol class="folge karte" aria-label="Zeichenfolge">
+      {#each folge as id, i (i)}
+        <li class:sichtbar={i < sichtbar} class:aktiv={hervorgehoben === i} aria-hidden={i >= sichtbar}>
+          {#if i < sichtbar}
+            <HandFigur {id} />
+            {#if loesungGezeigt}<span class="silbe">{id}</span>{/if}
+          {/if}
+        </li>
+      {/each}
+    </ol>
+
+    {#if phase === 'bereit'}
+      <button type="button" class="knopf" onclick={starte}>🔊 {T.singen.start}</button>
+    {:else if phase === 'bewerten'}
+      <div class="knopfreihe">
+        <button type="button" class="knopf leise" onclick={loesung}>{T.singen.loesung}</button>
+        <button type="button" class="knopf leise" onclick={anfangston}>{T.singen.anfangston}</button>
+      </div>
+      <h2>{T.singen.frageSelbst}</h2>
+      <div class="knopfreihe">
+        <button type="button" class="knopf" onclick={() => bewerte(true)}>✓ {T.singen.gut}</button>
+        <button type="button" class="knopf" onclick={() => bewerte(false)}>✗ {T.singen.nichtGanz}</button>
+        <button type="button" class="knopf leise" onclick={() => bewerte(null)}>{T.singen.ohneBewertung}</button>
+      </div>
+    {/if}
+  {:else}
+    <section class="karte">
+      <h2>{T.runde.auswertung}</h2>
+      {#if bewertungen.length > 0}
+        <p class="ergebnis">{T.singen.ergebnis(bewertungen.filter(Boolean).length, bewertungen.length)}</p>
+      {/if}
+      <div class="knopfreihe">
+        <button type="button" class="knopf" onclick={nochmal}>{T.runde.nochmal}</button>
+        <button type="button" class="knopf leise" onclick={() => gehe('ueben')}>{T.runde.zurAuswahl}</button>
+      </div>
+    </section>
+  {/if}
+
+  <p class="nur-sr" aria-live="polite">
+    {#if sichtbar > 0 && phase === 'zeigen'}{silbe(folge[sichtbar - 1]).gesprochen}{/if}
+  </p>
+{/if}
+
+<style>
+  .fortschritt {
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+  .folge {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+    padding: 12px;
+  }
+  @media (min-width: 560px) {
+    .folge {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+  .folge li {
+    min-height: 90px;
+    border-radius: var(--radius);
+    border: 2px dashed var(--rand);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .folge li.sichtbar {
+    border-style: solid;
+    animation: auftauchen 0.25s ease-out;
+  }
+  .folge li.aktiv {
+    border-color: var(--primaer);
+    background: color-mix(in srgb, var(--primaer) 12%, transparent);
+  }
+  .silbe {
+    font-family: 'Roboto Slab', Georgia, serif;
+    font-weight: 800;
+    color: var(--primaer);
+  }
+  .ergebnis {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  @keyframes auftauchen {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+  }
+</style>

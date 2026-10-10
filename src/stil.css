@@ -1,0 +1,221 @@
+/* Grundstil von solmization – angelehnt an kalikoer.com (Teal, Creme, Roboto Slab, Rosario). */
+
+@font-face {
+  font-family: 'Rosario';
+  src: url('/fonts/rosario-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Rosario';
+  src: url('/fonts/rosario-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  src: url('/fonts/roboto-slab-latin-600-normal.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  src: url('/fonts/roboto-slab-latin-800-normal.woff2') format('woff2');
+  font-weight: 800;
+  font-display: swap;
+}
+
+:root {
+  --teal: #275d6f;
+  --teal-dunkel: #1a3d4d;
+  --creme: #f4f1ed;
+  --akzent: #6fa8be;
+
+  --hintergrund: var(--creme);
+  --flaeche: #ffffff;
+  --text: #333333;
+  --text-leise: #555555;
+  --primaer: var(--teal);
+  --primaer-hover: var(--teal-dunkel);
+  --auf-primaer: #ffffff;
+  --rand: #d9d3cb;
+  --richtig: #2e7d4f;
+  --richtig-flaeche: #e3f2e8;
+  --falsch: #b3261e;
+  --falsch-flaeche: #fbe5e3;
+  --silhouette: #b8c4cc;
+
+  --hz-fuellung: var(--creme);
+  --hz-linie: var(--teal);
+
+  --radius: 12px;
+  --schatten: 0 1px 3px rgb(0 0 0 / 0.08);
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --hintergrund: #0d1a22;
+    --flaeche: #1a2630;
+    --text: #f4f1ed;
+    --text-leise: #b9c4cc;
+    --primaer: var(--akzent);
+    --primaer-hover: #8dbccd;
+    --auf-primaer: #0d1a22;
+    --rand: #2e3f4c;
+    --richtig: #7bc59a;
+    --richtig-flaeche: #173326;
+    --falsch: #f2a49b;
+    --falsch-flaeche: #3a1c1a;
+    --silhouette: #3d505e;
+    --hz-fuellung: #1a2630;
+    --hz-linie: var(--akzent);
+    --schatten: none;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--hintergrund);
+  color: var(--text);
+  font-family: 'Rosario', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Roboto Slab', Georgia, serif;
+  font-weight: 800;
+  color: var(--primaer);
+  line-height: 1.2;
+  margin: 1.2em 0 0.5em;
+}
+h1 {
+  font-size: 1.75rem;
+}
+h2 {
+  font-size: 1.3rem;
+}
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+a {
+  color: var(--primaer);
+}
+
+:focus-visible {
+  outline: 3px solid var(--primaer);
+  outline-offset: 2px;
+}
+
+.huelle {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.knopf {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  min-height: 44px;
+  padding: 0.55em 1.4em;
+  border: 2px solid var(--primaer);
+  border-radius: 40px;
+  background: var(--primaer);
+  color: var(--auf-primaer);
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.knopf:hover {
+  background: var(--primaer-hover);
+  border-color: var(--primaer-hover);
+}
+.knopf.leise {
+  background: transparent;
+  color: var(--primaer);
+}
+.knopf.leise:hover {
+  background: color-mix(in srgb, var(--primaer) 12%, transparent);
+}
+.knopf:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.karte {
+  background: var(--flaeche);
+  border-radius: var(--radius);
+  box-shadow: var(--schatten);
+  padding: 16px;
+}
+
+.knopfreihe {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0;
+}
+
+.hinweis {
+  font-size: 0.9rem;
+  color: var(--text-leise);
+}
+
+.nur-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Silhouette und Höhenmarke in den Handzeichen-Figuren */
+.hz-silhouette {
+  fill: none;
+  stroke: var(--silhouette);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.hz-marke {
+  stroke: var(--silhouette);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 4;
+}
+
+@media (hover: none) {
+  .nur-tastatur {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
