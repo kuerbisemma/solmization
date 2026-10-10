@@ -29,9 +29,57 @@ function laden(c: AudioContext) {
   }
 }
 
+/** iPadOS meldet sich als Mac – daher zusätzlich Touch prüfen. */
+export const IST_IOS =
+  /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.userAgent.includes('Mac') && navigator.maxTouchPoints > 1);
+
+/** Eine Zehntelsekunde Stille als WAV (8 kHz, 8 Bit, mono). */
+function stilleWav(): string {
+  const n = 800;
+  const b = new DataView(new ArrayBuffer(44 + n));
+  const text = (o: number, s: string) => [...s].forEach((c, i) => b.setUint8(o + i, c.charCodeAt(0)));
+  text(0, 'RIFF');
+  b.setUint32(4, 36 + n, true);
+  text(8, 'WAVEfmt ');
+  b.setUint32(16, 16, true);
+  b.setUint16(20, 1, true);
+  b.setUint16(22, 1, true);
+  b.setUint32(24, 8000, true);
+  b.setUint32(28, 8000, true);
+  b.setUint16(32, 1, true);
+  b.setUint16(34, 8, true);
+  text(36, 'data');
+  b.setUint32(40, n, true);
+  for (let i = 0; i < n; i++) b.setUint8(44 + i, 128);
+  return URL.createObjectURL(new Blob([b], { type: 'audio/wav' }));
+}
+
+/**
+ * iOS schaltet Web Audio mit dem Stummschalter stumm. Als „Wiedergabe“ angemeldet klingt die Seite trotzdem –
+ * über navigator.audioSession (Safari 17+) oder, auf älteren Geräten, über ein stilles HTML-Audio-Element.
+ */
+function alsWiedergabeAnmelden() {
+  const nav = navigator as Navigator & { audioSession?: { type: string } };
+  if (nav.audioSession) {
+    try {
+      nav.audioSession.type = 'playback';
+    } catch {
+      // ignorieren
+    }
+    return;
+  }
+  if (!IST_IOS) return;
+  const stille = new Audio(stilleWav());
+  stille.loop = true;
+  void stille.play().catch(() => {
+    // Ohne Erfolg bleibt nur der Hinweis auf den Stummschalter.
+  });
+}
+
 /** Muss in einem Klick-/Tasten-Handler aufgerufen werden. */
 export function aktiviereKlang(): AudioContext {
   if (!ctx) {
+    alsWiedergabeAnmelden();
     ctx = new AudioContext();
     ausgang = ctx.createGain();
     ausgang.gain.value = 0.8;
