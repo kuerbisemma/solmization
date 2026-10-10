@@ -12,6 +12,7 @@ npm test           # Musiklogik-Tests (Vitest)
 npm run check      # Typprüfung (svelte-check)
 npm run build      # statischer Build nach dist/ inkl. Service Worker
 npm run preview    # Build lokal ansehen
+npm run deploy     # bauen und auf solmization.kalikoer.com einspielen (SSH-Zugang nötig)
 ```
 
 ## Aufbau
@@ -19,7 +20,8 @@ npm run preview    # Build lokal ansehen
 | Pfad | Inhalt |
 |---|---|
 | `docs/PRD.md` | Produktanforderungen |
-| `docs/server.md` | Anforderungen und Beispielkonfiguration für den Webserver |
+| `docs/server.md` | Anforderungen, Einrichtung und Deployment |
+| `deploy/` | nginx-Konfiguration und Deploy-Skript |
 | `src/lib/theorie.ts` | Silben, Stufen, Tonarten, Kadenzen |
 | `src/lib/aufgaben.ts` | singbare Folgen bzw. Melodien |
 | `src/lib/noten.ts` | Tonarten, Vorzeichen, Schreibweise und Position der Noten |

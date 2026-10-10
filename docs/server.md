@@ -82,11 +82,22 @@ server {
 }
 ```
 
+## Aktuelle Einrichtung (solmization.kalikoer.com)
+
+| | |
+|---|---|
+| Server | Ubuntu 24.04, nginx 1.24 (gemeinsam mit den anderen kalikoer-Diensten) |
+| Webroot | `/var/www/solmization` |
+| nginx | `/etc/nginx/sites-available/solmization.kalikoer.com.conf` (Vorlage: `deploy/solmization.kalikoer.com.conf`, HTTPS-Teil von certbot ergänzt) |
+| Logs | `/var/log/nginx/solmization.access.log` (ohne IP), `/var/log/nginx/solmization.error.log` (nur `crit`) |
+| TLS | Let's Encrypt über `certbot --nginx`, Erneuerung per `certbot.timer` |
+
+Hinweis: Ubuntus `mime.types` kennt `.webmanifest` nicht – die Konfiguration setzt den Typ für `/manifest.webmanifest` selbst.
+
 ## Deployment
 
-Das Deployment ist bewusst nicht Teil des Projekts. Minimal:
-
 ```sh
-npm ci && npm run build
-rsync -av --delete dist/ user@vps:/var/www/solmization/
+npm run deploy
 ```
+
+Das Skript `deploy/deploy.sh` baut die App, überträgt `dist/` per `tar` über SSH nach `/var/www/solmization.neu` und tauscht das Verzeichnis dann in einem Schritt aus. Ziel ist standardmäßig `root@solmization.kalikoer.com`, überschreibbar mit `SOLMIZATION_HOST`. Nutzer:innen bekommen danach den Hinweis „Neue Version verfügbar“.
