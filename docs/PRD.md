@@ -5,14 +5,19 @@
 | **Produkt** | solmization – Übungsseite für relative Solmisation und Handzeichen |
 | **URL** | https://solmization.kalikoer.com |
 | **Verantwortlich** | Johannes Golda (Privatperson, Chorleiter kalikoer) |
-| **Status** | Entwurf v2 – auf die Übung „Zeichenfolge singen“ fokussiert |
+| **Status** | Entwurf v3 – zwei Übungen: „Handzeichen singen“ und „Noten singen“ |
 | **Stand** | 2026-10-10 |
 
 ---
 
 ## 1. Zusammenfassung
 
-solmization ist eine kleine, öffentlich zugängliche Website zum Üben der relativen Solmisation (Tonika-Do) und der zugehörigen Kodály-/Curwen-Handzeichen. Sie kommt ohne Login, ohne Cookies und ohne Tracking aus, funktioniert vollständig offline (PWA) und ist primär für das Smartphone gestaltet. Im Mittelpunkt steht eine einzige Übung: **Handzeichenfolgen vom Blatt singen** – so, wie sie eine Chorleitung zeigt. Nutzer:innen singen die Folge, hören sich die Lösung an und bewerten sich selbst.
+solmization ist eine kleine, öffentlich zugängliche Website zum Üben der relativen Solmisation (Tonika-Do) und der zugehörigen Kodály-/Curwen-Handzeichen. Sie kommt ohne Login, ohne Cookies und ohne Tracking aus, funktioniert vollständig offline (PWA) und ist primär für das Smartphone gestaltet. Im Mittelpunkt steht das **Singen vom Blatt** in zwei Übungen:
+
+- **Handzeichen singen** – Handzeichenfolgen singen, so wie sie eine Chorleitung zeigt.
+- **Noten singen** – dieselbe Art von Melodie in Notenschrift singen. Diese Transfer-Übung zeigt, ob die Solmisation beim Blattsingen hilft.
+
+Nutzer:innen singen, hören sich die Lösung an und bewerten sich selbst; die Statistik stellt beide Übungen im Wochenverlauf nebeneinander.
 
 Die Seite ist ein Hobbyprojekt („ein Projekt von kalikoer“) und orientiert sich gestalterisch an https://kalikoer.com.
 
@@ -20,7 +25,12 @@ Die Seite ist ein Hobbyprojekt („ein Projekt von kalikoer“) und orientiert s
 
 **Problem:** Wer im Chor oder Musikunterricht mit Solmisation arbeitet, hat außerhalb der Probe kaum Möglichkeiten, Silben, Handzeichen und das relative Hören gezielt und spielerisch zu üben. Vorhandene Angebote sind oft englischsprachig, nutzen andere Systeme (feste Solmisation, JaLe), erfordern Accounts oder sind werbefinanziert.
 
-**Ziel:** Eine schlanke, datenfreie Übungsseite, mit der Selbstlernende **Handzeichenfolgen vom Blatt singen** üben – jederzeit, auch offline, ohne Anmeldung. Das ist die eigentliche Praxis im Chor; reines Erkennen oder Zuordnen von Zeichen und Silben wird bewusst nicht als eigene Übung angeboten (siehe Abschnitt 11). Zum Nachschlagen dienen Einführung und Handzeichen-Tafel.
+**Ziel:** Eine schlanke, datenfreie Übungsseite, mit der Selbstlernende – jederzeit, auch offline, ohne Anmeldung –
+
+1. **Handzeichenfolgen vom Blatt singen** üben – die eigentliche Solmisationspraxis im Chor, und
+2. **überprüfen, ob die Solmisation beim Singen nach Noten hilft**, indem sie gleich gebaute Melodien in Notenschrift singen und ihre Quote mit der Handzeichen-Übung vergleichen.
+
+Reines Erkennen oder Zuordnen von Zeichen und Silben wird bewusst nicht als eigene Übung angeboten (siehe Abschnitt 11). Zum Nachschlagen dienen Einführung und Handzeichen-Tafel.
 
 ## 3. Zielgruppe
 
@@ -78,6 +88,8 @@ Stufen sind Vorschläge in Kodály-Reihenfolge – **es gibt keine Sperren**, je
 
 Zusätzlich gibt es eine **freie Auswahl**: Silben (inkl. Oktavlagen) einzeln an-/abwählen, Modus Dur/Moll wählen.
 
+Stufen und freie Auswahl gelten **für beide Übungen gleichermaßen** – nur so sind die Quoten vergleichbar. Bei „Noten singen“ bestimmen die Silben, welche Tonleiterstufen in der Melodie vorkommen.
+
 ## 5. Funktionale Anforderungen
 
 ### 5.1 Einführung und Handzeichen-Tafel
@@ -86,39 +98,64 @@ Zusätzlich gibt es eine **freie Auswahl**: Silben (inkl. Oktavlagen) einzeln an
 - **F-2** Handzeichen-Tafel: alle Zeichen des Tonvorrats mit Silbe, in Höhenanordnung (tief unten, hoch oben).
 - **F-3** Antippen eines Zeichens auf der Tafel spielt den zugehörigen Ton (in der aktuellen Stimmlage, Referenz-Tonart).
 
-### 5.2 Übung „Zeichenfolge singen“
+### 5.2 Übungen
 
-Einzige Übung der Seite. Ablauf einer Folge: Kadenz → Anfangston → Handzeichen erscheinen nacheinander, man singt mit → Lösung anhören (optional) → Selbstbewertung.
+| ID | Übung | Darstellung | Zweck |
+|---|---|---|---|
+| **Ü-H** | Handzeichen singen | Handzeichen erscheinen nacheinander im Tempo | Solmisation vom Blatt (Handzeichen) singen |
+| **Ü-N** | Noten singen | Melodie steht komplett im Notensystem, Marker läuft im Tempo mit | Transfer: hilft die Solmisation beim Singen nach Noten? |
 
-- **F-10** Vor dem Start wählt man Stufe bzw. freie Auswahl, Stimmlage und Tempo.
-- **F-11** Eine Runde besteht aus **5 Folgen**; am Ende folgt eine Zusammenfassung (Anzahl richtig gesungener Folgen).
-- **F-12** Folgenlänge **3–6 Zeichen**, abhängig von der Stufe (niedrige Stufen kürzer).
-- **F-13** Zeichen erscheinen **nacheinander im einstellbaren Tempo** (40–120 Zeichen pro Minute, Standard 60) – wie eine dirigierende Chorleitung – und bleiben anschließend als Reihe stehen.
-- **F-14** Folgen werden nach **Singbarkeitsregeln** generiert: überwiegend Schritte und kleine Sprünge, Beginn und Ende auf Tönen des Tonika-Dreiklangs, keine Tonwiederholung, keine Sprünge größer als eine Quinte.
-- **F-15** Nach dem Singen: **„Lösung anhören“** spielt die Folge, synchron hervorgehoben; danach werden die Silben unter den Zeichen angezeigt. **„Anfangston“** ist wiederholbar.
-- **F-16** **Selbstbewertung** („Richtig gesungen“ / „Nicht ganz“ / „Weiter ohne Bewertung“), die in die Statistik eingeht.
+- **F-10** Auf der Seite „Üben“ wählt man oben die Übung, darunter Stufe bzw. freie Auswahl, Stimmlage und Tempo; bei Ü-N zusätzlich Notenschlüssel und Vorzeichen (5.3).
+- **F-11** Gemeinsamer Ablauf einer Folge bzw. Melodie: **Kadenz → Anfangston → im Tempo singen → Lösung anhören (optional) → Selbstbewertung**.
+- **F-12** Eine Runde besteht aus **5 Folgen bzw. Melodien**; am Ende folgt eine Zusammenfassung (Anzahl richtig gesungener).
+- **F-13** Länge **3–6 Töne**, abhängig von der Stufe (niedrige Stufen kürzer); nur **gleich lange Notenwerte**, kein Rhythmus.
+- **F-14** Folgen und Melodien werden nach denselben **Singbarkeitsregeln** generiert: überwiegend Schritte und kleine Sprünge, Beginn und Ende auf Tönen des Tonika-Dreiklangs, keine Tonwiederholung, keine Sprünge größer als eine Quinte.
+- **F-15** Tempo einstellbar: 40–120 Töne pro Minute, Standard 60.
+- **F-16** **„Lösung anhören“** spielt die Folge bzw. Melodie, synchron hervorgehoben; **„Anfangston“** ist wiederholbar.
+- **F-17** **Selbstbewertung** („Richtig gesungen“ / „Nicht ganz“ / „Weiter ohne Bewertung“), die in die Statistik eingeht.
 
-### 5.3 Klang
+**Ü-H – Handzeichen singen**
 
-- **F-20** Pro Folge wird eine **zufällige Tonart** gewählt, so dass der gesamte aktive Tonvorrat in der gewählten Stimmlage liegt.
+- **F-18** Zeichen erscheinen **nacheinander im Tempo** (wie eine dirigierende Chorleitung) und bleiben anschließend als Reihe stehen. Nach „Lösung anhören“ werden die Silben unter den Zeichen angezeigt.
+
+**Ü-N – Noten singen**
+
+- **F-19** Die Melodie steht **von Anfang an vollständig** im Notensystem (wie ein Notenblatt); ein **Marker** hebt im Tempo die jeweils aktuelle Note hervor.
+- **F-19a** Diatonische Melodien: keine Versetzungszeichen, nur die Vorzeichen der Tonart.
+- **F-19b** **Keine Hilfe vor dem Singen.** Silben unter den Noten und die Tonart („D-Dur, do = d“) erscheinen **erst mit der Lösung** – das do aus den Vorzeichen zu finden, gehört zur geprüften Fähigkeit.
+
+### 5.3 Notation (nur Ü-N)
+
+- **F-25** **Notenschlüssel** wählbar: *Violinschlüssel*, *Violinschlüssel oktaviert* (Tenor), *Bassschlüssel*. Vorbelegung nach Stimmlage (hoch → Violin, tief → Bass).
+- **F-26** **Vorzeichen** einstellbar in vier Stufen: *nur C-Dur/a-Moll* · *bis 2 Vorzeichen* (Standard) · *bis 4 Vorzeichen* · *bis 6 Vorzeichen*. Bei 6 Vorzeichen wird nur eine Schreibweise angeboten (Fis-Dur/dis-Moll **oder** Ges-Dur/es-Moll, nicht beide).
+- **F-27** Passt eine Stufe mit der gewählten Vorzeichen-Einstellung nicht in den Tonraum der Stimmlage, wird der **Tonraum automatisch minimal erweitert** (um so wenige Halbtöne wie nötig).
+- **F-28** Die Darstellung passt ohne horizontales Scrollen auf ein Smartphone im Hochformat (bis 6 Noten plus Schlüssel und Vorzeichen).
+
+### 5.4 Klang
+
+- **F-20** Pro Folge bzw. Melodie wird eine **zufällige Tonart** gewählt, so dass der gesamte aktive Tonvorrat in der gewählten Stimmlage liegt (bei Ü-N zusätzlich innerhalb der Vorzeichen-Einstellung, siehe F-27).
 - **F-21** **Stimmlage** einstellbar: *hohe Stimme* / *tiefe Stimme* (Richtwert: hoch ca. A3–F5, tief eine Oktave darunter).
-- **F-22** Vor jeder Folge erklingt eine **Kadenz** (I–IV–V–I in Dur, i–iv–V–i in Moll).
+- **F-22** Vor jeder Folge bzw. Melodie erklingt eine **Kadenz** (I–IV–V–I in Dur, i–iv–V–i in Moll).
 - **F-23** Audio startet erst nach einer Nutzerinteraktion (Browser-Vorgabe, insbesondere iOS).
 
-### 5.4 Statistik und Speicherung
+### 5.5 Statistik und Speicherung
 
-- **F-40** Gespeichert wird ausschließlich **lokal im Browser (localStorage)**: Einstellungen (Stimmlage, Tempo, zuletzt gewählte Stufe) und Statistik. Keine Daten verlassen das Gerät.
-- **F-41** Statistik-Ansicht: **Quote richtig gesungener Folgen pro Silbe** (jede Silbe einer bewerteten Folge zählt mit).
-- **F-42** **Zurücksetzen**-Button (mit Rückfrage).
-- **F-43** Die Seite funktioniert vollständig, auch wenn localStorage nicht verfügbar ist (z. B. privater Modus) – dann ohne Speicherung.
+- **F-40** Gespeichert wird ausschließlich **lokal im Browser (localStorage)**: Einstellungen (Übung, Stimmlage, Tempo, Notenschlüssel, Vorzeichen, zuletzt gewählte Stufe) und Statistik. Keine Daten verlassen das Gerät.
+- **F-41** **Gesamtquote je Übung** (Ü-H und Ü-N) nebeneinander.
+- **F-42** **Quote pro Silbe**, für beide Übungen nebeneinander (jede Silbe einer bewerteten Folge bzw. Melodie zählt mit).
+- **F-43** **Wochenverlauf** als Liniendiagramm: Quote pro Kalenderwoche, eine Linie je Übung, Anzahl der Bewertungen sichtbar. Daran lässt sich ablesen, ob die Solmisation beim Notensingen hilft.
+- **F-44** Bewertungen werden **mit Datum** gespeichert; Daten älter als **52 Wochen** werden zu Summen verdichtet (zählen weiter in Gesamt- und Silbenquote, nicht mehr im Verlauf).
+- **F-45** Bewertungen aus Version 2 (ohne Datum) zählen zu Ü-H in Gesamt- und Silbenquote, erscheinen aber nicht im Verlauf.
+- **F-46** **Zurücksetzen**-Button (mit Rückfrage).
+- **F-47** Die Seite funktioniert vollständig, auch wenn localStorage nicht verfügbar ist (z. B. privater Modus) – dann ohne Speicherung.
 
-### 5.5 Bedienung
+### 5.6 Bedienung
 
 - **F-50** Mobile-first, Touch-optimiert, Hochformat.
-- **F-51** **Tastaturkürzel** auf dem Desktop: Leertaste startet die Folge, L = Lösung anhören, A = Anfangston, 1 = richtig gesungen, 2 = nicht ganz, 3 = weiter ohne Bewertung. Kürzel werden in der Oberfläche angezeigt.
+- **F-51** **Tastaturkürzel** auf dem Desktop: Leertaste startet die Folge bzw. Melodie, L = Lösung anhören, A = Anfangston, 1 = richtig gesungen, 2 = nicht ganz, 3 = weiter ohne Bewertung. Kürzel werden in der Oberfläche angezeigt.
 - **F-52** Auf iOS: Hinweis „Kein Ton? Prüfe den Stummschalter“, falls Audio aktiv ist.
 
-### 5.6 Statische Seiten
+### 5.7 Statische Seiten
 
 - **F-60** Impressum (verantwortlich: Johannes Golda als Privatperson).
 - **F-61** Datenschutzerklärung (eigener VPS als Hoster, keine IP-Speicherung, keine Cookies, localStorage nur lokal).
@@ -151,7 +188,7 @@ Das Deployment übernimmt der Betreiber selbst und ist nicht Teil der Umsetzung.
 
 ### 6.4 Barrierefreiheit
 
-- **N-30** Ziel **WCAG 2.1 AA** für alle Teile, die nicht inhärent auf Hören bzw. Sehen beruhen.
+- **N-30** Ziel **WCAG 2.1 AA** für alle Teile, die nicht inhärent auf Hören bzw. Sehen beruhen. **Bekannte Ausnahme:** Notenlesen (Ü-N) ist wie das Lesen von Handzeichen inhärent visuell. Der Alt-Text beschreibt nur den Rahmen („Melodie mit 5 Noten, Violinschlüssel, 2 Kreuze“), nicht die Noten selbst.
 - **N-31** Vollständige Tastaturbedienung, sichtbarer Fokus.
 - **N-32** Ausreichende Kontraste in Hell- und Dunkelmodus.
 - **N-33** Alt-Texte für alle Handzeichen (Beschreibung von Form und Höhe).
@@ -190,11 +227,14 @@ Da bewusst keine Nutzungsdaten erhoben werden, gilt die Seite als erfolgreich, w
 
 ## 9. Akzeptanzkriterien (MVP)
 
-- [ ] „Zeichenfolge singen“ ist mit allen 10 Stufen und der freien Auswahl spielbar.
-- [ ] Jede Folge nutzt eine zufällige Tonart in der gewählten Stimmlage und beginnt mit Kadenz und Anfangston; Anfangston und Lösung sind wiederholbar.
+- [ ] „Handzeichen singen“ und „Noten singen“ sind mit allen 10 Stufen und der freien Auswahl spielbar.
+- [ ] Jede Folge bzw. Melodie nutzt eine zufällige Tonart in der gewählten Stimmlage und beginnt mit Kadenz und Anfangston; Anfangston und Lösung sind wiederholbar.
+- [ ] Ü-N: Notenschlüssel (Violin, Violin oktaviert, Bass) und Vorzeichen-Stufen wirken wie eingestellt; Tonart und Silben erscheinen erst mit der Lösung.
+- [ ] Ü-N: Für jede Kombination aus Stufe, Stimmlage und Vorzeichen-Einstellung entsteht eine Melodie (ggf. mit minimal erweitertem Tonraum).
+- [ ] Ü-N: Noten, Schlüssel und Vorzeichen sind fachlich korrekt gesetzt (Abnahme durch Johannes Golda).
 - [ ] Oktavlagen (so, la, ti, do') sind über die Handhöhe erkennbar.
 - [ ] Handzeichen-Tafel und Einführung sind vorhanden; Zeichen auf der Tafel erklingen beim Antippen.
-- [ ] Statistik (Quote pro Silbe, Reset) funktioniert und bleibt nach Neuladen erhalten.
+- [ ] Statistik (Gesamtquote je Übung, Quote pro Silbe für beide Übungen, Wochenverlauf, Reset) funktioniert und bleibt nach Neuladen erhalten.
 - [ ] Nach einmaligem Besuch funktioniert die Seite im Flugmodus vollständig, inklusive Klavierklang.
 - [ ] Es werden keine Cookies gesetzt und keine externen Ressourcen geladen (prüfbar in den DevTools).
 - [ ] Alle Funktionen sind per Tastatur bedienbar.
@@ -209,6 +249,8 @@ Da bewusst keine Nutzungsdaten erhoben werden, gilt die Seite als erfolgreich, w
 | Fehlerhafte Handzeichen-Illustrationen | untergräbt die fachliche Glaubwürdigkeit der ganzen Seite | Referenztabelle (4.3), frühe fachliche Abnahme vor der Übungsumsetzung |
 | Audio auf iOS (Autoplay-Sperre, Stummschalter) | „Seite ist kaputt“-Eindruck | Audio-Start erst nach Interaktion, Stummschalter-Hinweis, frühes Testen auf echtem Gerät |
 | Größe der Sample-Dateien | lange Erstladezeit, großer Offline-Cache | reduziertes Sample-Set (z. B. jede kleine Terz, Rest per Pitch-Shift), synthetischer Fallback |
+| Falsch gesetzte Noten (Vorzeichen, Schlüssel, Hilfslinien) | untergräbt die Glaubwürdigkeit der Transfer-Übung | automatisierte Tests der Notenberechnung, fachliche Abnahme |
+| Selbstbewertung und kleine Fallzahlen | Wochenverlauf schwankt stark, Aussage „hilft es?“ unsicher | Wochen statt Tage, Anzahl der Bewertungen im Diagramm sichtbar |
 | Veraltete Versionen durch Service-Worker-Caching | Nutzer:innen hängen auf alter Version fest | korrekte Caching-Header (N-12), Update-Hinweis (N-3) |
 
 ## 11. Außerhalb des Umfangs
@@ -226,10 +268,13 @@ Da bewusst keine Nutzungsdaten erhoben werden, gilt die Seite als erfolgreich, w
 - Kamera-Erkennung der selbst ausgeführten Handzeichen
 - Mikrofon-/Tonhöhenerkennung beim Singen
 - Melodie-Diktat (Melodie hören → Silbenfolge eingeben)
+- Rhythmus in „Noten singen“ (Notenwerte, Taktart)
+- Echte Melodien (gemeinfreie Volks- und Kinderlieder) statt generierter
+- Lernpfad: erst Handzeichenfolge, danach dieselbe Melodie als Noten
+- Vergleich „Noten mit vs. ohne Silben-Hilfe“ als Mini-Experiment
 - Chromatische Silben (di, ri, fi, si, ta, le …)
-- Notenschrift im Liniensystem
 - JaLe und weitere Solmisationssysteme
-- Statistik-Verlauf über die Zeit, Export/Import des Fortschritts
+- Export/Import des Fortschritts
 - Mehrsprachigkeit
 - Deployment-Automatisierung
 
@@ -237,6 +282,7 @@ Da bewusst keine Nutzungsdaten erhoben werden, gilt die Seite als erfolgreich, w
 
 - ~~Kadenz in Moll~~ → **entschieden:** i–iv–V–i mit Leitton „si“ nur in der Kadenz.
 - ~~Sample-Set~~ → **entschieden:** Salamander Grand Piano V3 (CC BY 3.0), 18 Samples A1–C6 im Kleinterzabstand, ca. 1,4 MB.
-- ~~Tempo-Bereich~~ → **entschieden:** 40–120 Zeichen pro Minute, Standard 60. Eine Runde umfasst 5 Folgen.
+- ~~Tempo-Bereich~~ → **entschieden:** 40–120 Töne pro Minute, Standard 60. Eine Runde umfasst 5 Folgen bzw. Melodien.
 - **Stimmlagen-Grenzen** (F-21: hoch A3–F5, tief A2–F4) mit echten Stimmen im Chor gegenprüfen.
+- **Schreibweise bei 6 Vorzeichen** (F-26): Fis-Dur/dis-Moll oder Ges-Dur/es-Moll festlegen.
 - **Impressum/Datenschutz:** Anschrift und E-Mail in `src/lib/betreiber.ts` eintragen.
