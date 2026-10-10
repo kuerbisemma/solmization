@@ -5,14 +5,13 @@ export type Seite =
   | 'einfuehrung'
   | 'tafel'
   | 'ueben'
-  | 'runde'
   | 'singen'
   | 'statistik'
   | 'impressum'
   | 'datenschutz'
   | 'credits';
 
-const SEITEN: Seite[] = ['start', 'einfuehrung', 'tafel', 'ueben', 'runde', 'singen', 'statistik', 'impressum', 'datenschutz', 'credits'];
+const SEITEN: Seite[] = ['start', 'einfuehrung', 'tafel', 'ueben', 'singen', 'statistik', 'impressum', 'datenschutz', 'credits'];
 
 function ausHash(): Seite {
   const name = location.hash.replace(/^#\/?/, '') as Seite;

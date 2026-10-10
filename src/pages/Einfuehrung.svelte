@@ -13,13 +13,13 @@
 </p>
 <p>
   Dadurch hat jede Silbe ihren eigenen Charakter: „do“ klingt nach Ankommen, „ti“ will unbedingt zum „do“ hinauf, „so“ ist stabil
-  und hell. Diese Beziehungen trainierst du hier.
+  und hell. Diese Beziehungen trainierst du hier, indem du Handzeichen vom Blatt singst – so wie in der Chorprobe.
 </p>
 
 <h2>Dur und Moll</h2>
 <p>
   In Dur ist „do“ der Grundton. In Moll ist es „la“ – die Silben bleiben gleich, nur der Ruhepunkt verschiebt sich. Deshalb klingt
-  vor jeder Hörübung eine kurze <strong>Kadenz</strong> (eine Akkordfolge), die dir zeigt, wo „zu Hause“ ist.
+  vor jeder Folge eine kurze <strong>Kadenz</strong> (eine Akkordfolge), die dir zeigt, wo „zu Hause“ ist.
 </p>
 
 <h2>Die Handzeichen</h2>
@@ -47,7 +47,8 @@
 <ol>
   <li>Schau dir die <a href={href('tafel')}>Handzeichen-Tafel</a> an und hör dir die Töne an.</li>
   <li>Starte mit <a href={href('ueben')}>Stufe 1</a> (so – mi) und arbeite dich hoch – du kannst jederzeit springen.</li>
-  <li>Sing bei jeder Übung leise mit, auch wenn niemand zuhört. 🙂</li>
+  <li>Sing laut mit, sobald die Zeichen erscheinen – auch wenn niemand zuhört. 🙂</li>
+  <li>Hör dir danach die Lösung an und sei ehrlich zu dir: Die Statistik zeigt dir, bei welchen Silben es noch hakt.</li>
 </ol>
 
 <style>

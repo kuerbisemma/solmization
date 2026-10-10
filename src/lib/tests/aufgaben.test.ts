@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { erzeugeFolge, erzeugeRunde, MAX_SPRUNG } from '../aufgaben';
+import { erzeugeFolge, MAX_SPRUNG } from '../aufgaben';
 import { dreiklangsSilben, kadenz, silbe, STUFEN, TONRAUM, waehleDo, midiVon, type Stimmlage } from '../theorie';
-import { haeufigsteVerwechslungen, leereStatistik, verbuche, verbucheVerwechslung } from '../statistik';
+import { leereStatistik, quote, verbuche } from '../statistik';
 
 // Deterministischer Zufall für reproduzierbare Tests.
 function zufallMitSeed(seed: number) {
@@ -43,14 +43,6 @@ describe('kadenz', () => {
   });
 });
 
-describe('erzeugeRunde', () => {
-  it('liefert 10 Aufgaben ohne direkte Wiederholung', () => {
-    const runde = erzeugeRunde(['mi', 'so'], 10, zufallMitSeed(1));
-    expect(runde).toHaveLength(10);
-    for (let i = 1; i < runde.length; i++) expect(runde[i]).not.toBe(runde[i - 1]);
-  });
-});
-
 describe('erzeugeFolge', () => {
   it('erzeugt singbare Folgen für alle Stufen', () => {
     for (const stufe of STUFEN) {
@@ -73,14 +65,12 @@ describe('erzeugeFolge', () => {
 });
 
 describe('Statistik', () => {
-  it('zählt Treffer und fasst Verwechslungen richtungsunabhängig zusammen', () => {
+  it('zählt richtig gesungene Folgen pro Silbe', () => {
     let s = leereStatistik();
-    s = verbuche(s, 'zeichen-silbe', 'so', false);
-    s = verbuche(s, 'zeichen-silbe', 'so', true);
-    s = verbucheVerwechslung(s, 'so', 'la');
-    s = verbucheVerwechslung(s, 'la', 'so');
-    s = verbucheVerwechslung(s, 'do', 're');
-    expect(s.treffer['zeichen-silbe']?.so).toEqual({ richtig: 1, gesamt: 2 });
-    expect(haeufigsteVerwechslungen(s)[0]).toEqual({ paar: ['so', 'la'], anzahl: 2 });
+    s = verbuche(s, 'so', false);
+    s = verbuche(s, 'so', true);
+    expect(s.treffer.so).toEqual({ richtig: 1, gesamt: 2 });
+    expect(quote(s.treffer.so)).toBe(0.5);
+    expect(quote(s.treffer.la)).toBeNull();
   });
 });

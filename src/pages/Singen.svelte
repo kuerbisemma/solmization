@@ -1,18 +1,17 @@
 <script lang="ts">
   import HandFigur from '../components/HandFigur.svelte';
   import IosHinweis from '../components/IosHinweis.svelte';
-  import { erzeugeFolge } from '../lib/aufgaben';
+  import { erzeugeFolge, FOLGEN_PRO_RUNDE } from '../lib/aufgaben';
   import { spieleFolge, spieleKadenz, spieleTon, stoppe } from '../lib/klang';
   import { gehe } from '../lib/router.svelte';
   import { verbuche } from '../lib/statistik';
+  import { istEigeneEingabe } from '../lib/tasten';
   import { T } from '../lib/texte';
   import { folgenLaengeFuer, kadenz, midiVon, silbe, sortiert, STUFEN, waehleDo, type SilbenId } from '../lib/theorie';
   import { aktualisiereStatistik, auswahl, einstellungen, statistik } from '../lib/zustand.svelte';
 
-  const FOLGEN_PRO_RUNDE = 5;
-
   const optionen = sortiert(auswahl.silben);
-  const gueltig = auswahl.typ === 'singen' && optionen.length >= 2;
+  const gueltig = optionen.length >= 2;
   if (!gueltig) gehe('ueben');
   const laenge = auswahl.stufe ? STUFEN[auswahl.stufe - 1].folgenLaenge : folgenLaengeFuer(optionen.length);
 
@@ -74,7 +73,7 @@
     abbrechen();
     if (gut !== null) {
       let s = statistik.wert;
-      for (const id of folge) s = verbuche(s, 'singen', id, gut);
+      for (const id of folge) s = verbuche(s, id, gut);
       aktualisiereStatistik(s);
       bewertungen.push(gut);
     }
@@ -94,11 +93,28 @@
     void starte();
   }
 
+  function taste(e: KeyboardEvent) {
+    if (istEigeneEingabe(e) || e.ctrlKey || e.metaKey || e.altKey) return;
+    const k = e.key.toLowerCase();
+    if (phase === 'bereit' && k === ' ') {
+      e.preventDefault();
+      void starte();
+    } else if (phase === 'bewerten') {
+      if (k === 'l') void loesung();
+      else if (k === 'a') void anfangston();
+      else if (k === '1') bewerte(true);
+      else if (k === '2') bewerte(false);
+      else if (k === '3') bewerte(null);
+    }
+  }
+
   $effect(() => abbrechen);
 </script>
 
+<svelte:window onkeydown={taste} />
+
 {#if gueltig}
-  <h1>{T.uebungen.singen.titel}</h1>
+  <h1>{T.auswahl.titel}</h1>
 
   {#if phase !== 'fertig'}
     <p class="fortschritt">{T.singen.folge(nummer, FOLGEN_PRO_RUNDE)}</p>
@@ -130,15 +146,18 @@
         <button type="button" class="knopf leise" onclick={() => bewerte(null)}>{T.singen.ohneBewertung}</button>
       </div>
     {/if}
+    {#if phase !== 'zeigen'}
+      <p class="hinweis nur-tastatur">{T.singen.tastenHinweis}</p>
+    {/if}
   {:else}
     <section class="karte">
-      <h2>{T.runde.auswertung}</h2>
+      <h2>{T.singen.auswertung}</h2>
       {#if bewertungen.length > 0}
         <p class="ergebnis">{T.singen.ergebnis(bewertungen.filter(Boolean).length, bewertungen.length)}</p>
       {/if}
       <div class="knopfreihe">
-        <button type="button" class="knopf" onclick={nochmal}>{T.runde.nochmal}</button>
-        <button type="button" class="knopf leise" onclick={() => gehe('ueben')}>{T.runde.zurAuswahl}</button>
+        <button type="button" class="knopf" onclick={nochmal}>{T.singen.nochmal}</button>
+        <button type="button" class="knopf leise" onclick={() => gehe('ueben')}>{T.singen.zurAuswahl}</button>
       </div>
     </section>
   {/if}

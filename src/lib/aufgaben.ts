@@ -1,26 +1,11 @@
-// Erzeugt Aufgaben für eine Übungsrunde und singbare Zeichenfolgen.
+// Erzeugt singbare Zeichenfolgen.
 
 import { dreiklangsSilben, silbe, type Modus, type SilbenId, type Zufall } from './theorie';
 
-export const AUFGABEN_PRO_RUNDE = 10;
+export const FOLGEN_PRO_RUNDE = 5;
 
 function ziehe<T>(liste: readonly T[], zufall: Zufall): T {
   return liste[Math.floor(zufall() * liste.length)];
-}
-
-/** Zufällige Silben aus der Auswahl; dieselbe Silbe kommt nie zweimal direkt hintereinander. */
-export function erzeugeRunde(
-  ids: readonly SilbenId[],
-  anzahl = AUFGABEN_PRO_RUNDE,
-  zufall: Zufall = Math.random,
-): SilbenId[] {
-  if (ids.length < 2) throw new Error('Mindestens zwei Silben nötig');
-  const runde: SilbenId[] = [];
-  for (let i = 0; i < anzahl; i++) {
-    const vorher = runde[i - 1];
-    runde.push(ziehe(ids.filter((id) => id !== vorher), zufall));
-  }
-  return runde;
 }
 
 /** Größter erlaubter Sprung in singbaren Folgen (Quinte). */

@@ -6,7 +6,6 @@
   import Einfuehrung from './pages/Einfuehrung.svelte';
   import Tafel from './pages/Tafel.svelte';
   import Ueben from './pages/Ueben.svelte';
-  import Runde from './pages/Runde.svelte';
   import Singen from './pages/Singen.svelte';
   import Statistik from './pages/Statistik.svelte';
   import Impressum from './pages/Impressum.svelte';
@@ -20,7 +19,6 @@
     einfuehrung: Einfuehrung,
     tafel: Tafel,
     ueben: Ueben,
-    runde: Runde,
     singen: Singen,
     statistik: Statistik,
     impressum: Impressum,
@@ -35,7 +33,7 @@
     <a class="marke" href={href('start')}>{T.marke}</a>
     <nav aria-label="Hauptnavigation">
       <a href={href('tafel')} aria-current={route.seite === 'tafel' ? 'page' : undefined}>Tafel</a>
-      <a href={href('ueben')} aria-current={['ueben', 'runde', 'singen'].includes(route.seite) ? 'page' : undefined}>{T.nav.ueben}</a>
+      <a href={href('ueben')} aria-current={['ueben', 'singen'].includes(route.seite) ? 'page' : undefined}>{T.nav.ueben}</a>
       <a href={href('statistik')} aria-current={route.seite === 'statistik' ? 'page' : undefined}>{T.nav.statistik}</a>
     </nav>
   </div>

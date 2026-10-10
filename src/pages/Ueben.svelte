@@ -1,11 +1,8 @@
 <script lang="ts">
   import { gehe } from '../lib/router.svelte';
-  import type { UebungsTyp } from '../lib/statistik';
   import { T } from '../lib/texte';
   import { SILBEN, sortiert, STUFEN, type SilbenId } from '../lib/theorie';
   import { auswahl, einstellungen, speichereAuswahl, speichereEinstellungen, TEMPO } from '../lib/zustand.svelte';
-
-  const TYPEN = Object.keys(T.uebungen) as UebungsTyp[];
 
   function waehleStufe(nr: number | null) {
     auswahl.stufe = nr;
@@ -27,24 +24,12 @@
   function starte() {
     speichereAuswahl();
     speichereEinstellungen();
-    gehe(auswahl.typ === 'singen' ? 'singen' : 'runde');
+    gehe('singen');
   }
 </script>
 
-<h1>{T.nav.ueben}</h1>
-
-<fieldset>
-  <legend>{T.auswahl.uebung}</legend>
-  <div class="optionen typen">
-    {#each TYPEN as typ (typ)}
-      <label class="karte option" class:gewaehlt={auswahl.typ === typ}>
-        <input type="radio" name="typ" value={typ} bind:group={auswahl.typ} />
-        <strong>{T.uebungen[typ].titel}</strong>
-        <span class="hinweis">{T.uebungen[typ].text}</span>
-      </label>
-    {/each}
-  </div>
-</fieldset>
+<h1>{T.auswahl.titel}</h1>
+<p>{T.auswahl.text}</p>
 
 <fieldset>
   <legend>{T.auswahl.stufe}</legend>
@@ -86,29 +71,25 @@
   {/if}
 </fieldset>
 
-{#if auswahl.typ !== 'zeichen-silbe' && auswahl.typ !== 'silbe-zeichen'}
-  <fieldset>
-    <legend>{T.auswahl.stimmlage}</legend>
-    <div class="chips">
-      <label class="chip" class:an={einstellungen.stimmlage === 'hoch'}>
-        <input type="radio" name="lage" value="hoch" bind:group={einstellungen.stimmlage} />{T.auswahl.hoch}
-      </label>
-      <label class="chip" class:an={einstellungen.stimmlage === 'tief'}>
-        <input type="radio" name="lage" value="tief" bind:group={einstellungen.stimmlage} />{T.auswahl.tief}
-      </label>
-    </div>
-  </fieldset>
-{/if}
-
-{#if auswahl.typ === 'singen'}
-  <fieldset>
-    <legend>{T.auswahl.tempo}</legend>
-    <label class="tempo">
-      <input type="range" min={TEMPO.min} max={TEMPO.max} step="5" bind:value={einstellungen.tempo} />
-      <span>{einstellungen.tempo} {T.auswahl.tempoEinheit}</span>
+<fieldset>
+  <legend>{T.auswahl.stimmlage}</legend>
+  <div class="chips">
+    <label class="chip" class:an={einstellungen.stimmlage === 'hoch'}>
+      <input type="radio" name="lage" value="hoch" bind:group={einstellungen.stimmlage} />{T.auswahl.hoch}
     </label>
-  </fieldset>
-{/if}
+    <label class="chip" class:an={einstellungen.stimmlage === 'tief'}>
+      <input type="radio" name="lage" value="tief" bind:group={einstellungen.stimmlage} />{T.auswahl.tief}
+    </label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>{T.auswahl.tempo}</legend>
+  <label class="tempo">
+    <input type="range" min={TEMPO.min} max={TEMPO.max} step="5" bind:value={einstellungen.tempo} />
+    <span>{einstellungen.tempo} {T.auswahl.tempoEinheit}</span>
+  </label>
+</fieldset>
 
 <p><button type="button" class="knopf" disabled={!gueltig} onclick={starte}>{T.auswahl.los}</button></p>
 
@@ -128,9 +109,6 @@
   .optionen {
     display: grid;
     gap: 8px;
-  }
-  .typen {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   }
   .stufen {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
