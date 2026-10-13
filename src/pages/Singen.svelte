@@ -127,7 +127,7 @@
     {#if noten}
       <div class="karte notenblatt">
         <Notenzeile
-          {folge}
+          folge={folge.map((id) => ({ id, dauer: 2 }))}
           {doMidi}
           schluessel={einstellungen.schluessel}
           aktiv={hervorgehoben ?? (phase === 'zeigen' && sichtbar > 0 ? sichtbar - 1 : null)}

@@ -174,12 +174,19 @@ export function spieleKadenz(akkorde: number[][], proAkkord = 0.9): Promise<void
 
 /** Spielt Töne nacheinander; `beiTon` wird synchron zu jedem Ton aufgerufen (z. B. zum Hervorheben). */
 export function spieleFolge(midis: number[], proTon: number, beiTon?: (i: number) => void): Promise<void> {
+  return spieleMelodie(midis.map((midi) => ({ midi, dauer: proTon })), beiTon);
+}
+
+/** Spielt eine Melodie mit Rhythmus; `midi: null` ist eine Pause, `dauer` in Sekunden. */
+export function spieleMelodie(toene: { midi: number | null; dauer: number }[], beiTon?: (i: number) => void): Promise<void> {
   stoppe();
   const c = aktiviereKlang();
   const start = c.currentTime + 0.05;
-  midis.forEach((m, i) => {
-    ton(m, start + i * proTon, proTon * 0.95, 0.9);
-    if (beiTon) timer.push(window.setTimeout(() => beiTon(i), (0.05 + i * proTon) * 1000));
+  let zeit = 0;
+  toene.forEach(({ midi, dauer }, i) => {
+    if (midi !== null) ton(midi, start + zeit, dauer * 0.95, 0.9);
+    if (beiTon) timer.push(window.setTimeout(() => beiTon(i), (0.05 + zeit) * 1000));
+    zeit += dauer;
   });
-  return nachAblauf(midis.length * proTon + 0.3);
+  return nachAblauf(zeit + 0.3);
 }

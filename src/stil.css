@@ -15,7 +15,7 @@
 @font-face {
   /* Auszug aus Bravura (SIL OFL), umbenannt */
   font-family: 'Solmi Noten';
-  src: url('/fonts/solmi-noten.woff2') format('woff2');
+  src: url('/fonts/solmi-noten-2.woff2') format('woff2');
   font-display: block;
 }
 @font-face {
@@ -53,6 +53,7 @@
   /* Diagrammfarben (validiert: Farbsehschwächen, Kontrast) */
   --serie-handzeichen: #0a7fa8;
   --serie-noten: #c25e2a;
+  --serie-lieder: #b0306a;
 
   --hz-fuellung: var(--creme);
   --hz-linie: var(--teal);
@@ -79,6 +80,7 @@
     --silhouette: #3d505e;
     --serie-handzeichen: #2ea0cc;
     --serie-noten: #d0702f;
+    --serie-lieder: #e0609a;
     --hz-fuellung: #1a2630;
     --hz-linie: var(--akzent);
     --schatten: none;

@@ -1,6 +1,6 @@
 <script lang="ts">
   import Wochenverlauf from '../components/Wochenverlauf.svelte';
-  import { gesamt, proSilbe, quote, silbenMitDaten, UEBUNGEN, wochenverlauf } from '../lib/statistik';
+  import { gesamt, proSilbe, quote, SILBEN_UEBUNGEN, silbenMitDaten, UEBUNGEN, wochenverlauf } from '../lib/statistik';
   import { T } from '../lib/texte';
   import { silbe } from '../lib/theorie';
   import { setzeStatistikZurueck, statistik } from '../lib/zustand.svelte';
@@ -12,6 +12,7 @@
     handzeichen: proSilbe(statistik.wert, 'handzeichen'),
     noten: proSilbe(statistik.wert, 'noten'),
   });
+  const hatDaten = $derived(UEBUNGEN.some((u) => gesamt(statistik.wert, u).gesamt > 0));
   const wochen = $derived(wochenverlauf(statistik.wert, VERLAUF_WOCHEN));
   const hatVerlauf = $derived(wochen.some((w) => UEBUNGEN.some((u) => w.werte[u].folgen > 0)));
 
@@ -25,7 +26,7 @@
 <h1>{T.nav.statistik}</h1>
 <p class="hinweis">{T.statistik.hinweis}</p>
 
-{#if zeilen.length === 0}
+{#if !hatDaten}
   <p>{T.statistik.leer}</p>
 {:else}
   <h2>{T.statistik.gesamt}</h2>
@@ -35,7 +36,7 @@
       <div class="karte kachel">
         <span class="kachel-titel"><i class="punkt {u}"></i>{T.uebungen[u].titel}</span>
         <span class="zahl">{prozent(quote(z))}</span>
-        <span class="hinweis">{z.gesamt > 0 ? `${z.richtig} von ${z.gesamt} Tönen` : T.statistik.keineDaten}</span>
+        <span class="hinweis">{z.gesamt > 0 ? T.statistik.vonGesamt(u, z.richtig, z.gesamt) : T.statistik.keineDaten}</span>
       </div>
     {/each}
   </div>
@@ -48,14 +49,15 @@
     <p class="hinweis">{T.statistik.verlaufHinweis}</p>
   {/if}
 
+  {#if zeilen.length > 0}
   <h2>{T.statistik.silben}</h2>
-  <p>{T.statistik.erklaerung}</p>
+  <p>{T.statistik.erklaerung} {T.statistik.silbenHinweis}</p>
   <ul class="karte liste">
     {#each zeilen as id (id)}
       <li>
         <span class="silbe"><span aria-hidden="true">{id}</span><span class="nur-sr">{silbe(id).gesprochen}</span></span>
         <span class="balken">
-          {#each UEBUNGEN as u (u)}
+          {#each SILBEN_UEBUNGEN as u (u)}
             {@const z = proUebung[u][id]}
             {@const q = quote(z)}
             <span class="zeile">
@@ -71,8 +73,9 @@
     {/each}
   </ul>
   <div class="legende" aria-hidden="true">
-    {#each UEBUNGEN as u (u)}<span><i class="punkt {u}"></i>{T.uebungen[u].titel}</span>{/each}
+    {#each SILBEN_UEBUNGEN as u (u)}<span><i class="punkt {u}"></i>{T.uebungen[u].titel}</span>{/each}
   </div>
+  {/if}
 {/if}
 
 <p><button type="button" class="knopf leise" onclick={zuruecksetzen}>{T.statistik.zuruecksetzen}</button></p>
@@ -80,7 +83,7 @@
 <style>
   .kacheln {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
     gap: 10px;
   }
   .kachel {
@@ -113,6 +116,9 @@
   }
   .punkt.noten {
     background: var(--serie-noten);
+  }
+  .punkt.lieder {
+    background: var(--serie-lieder);
   }
   .liste {
     list-style: none;

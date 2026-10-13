@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { passendeLieder } from '../lib/lieder';
   import type { Schluessel, VorzeichenStufe } from '../lib/noten';
   import { gehe } from '../lib/router.svelte';
   import { UEBUNGEN } from '../lib/statistik';
@@ -21,7 +22,9 @@
       : sortiert([...auswahl.silben, id]);
   }
 
-  const gueltig = $derived(auswahl.silben.length >= 2);
+  const lieder = $derived(einstellungen.uebung === 'lieder');
+  const anzahlLieder = $derived(passendeLieder(auswahl.silben, auswahl.modus).length);
+  const gueltig = $derived(auswahl.silben.length >= 2 && (!lieder || anzahlLieder > 0));
   const SCHLUESSEL: Schluessel[] = ['violin', 'tenor', 'bass'];
   const VORZEICHEN: VorzeichenStufe[] = [0, 2, 4, 6];
 
@@ -93,8 +96,11 @@
           <input type="radio" name="modus" value="moll" bind:group={auswahl.modus} />{T.auswahl.moll}
         </label>
       </div>
-      {#if !gueltig}<p class="hinweis" role="alert">{T.auswahl.freiHinweis}</p>{/if}
+      {#if auswahl.silben.length < 2}<p class="hinweis" role="alert">{T.auswahl.freiHinweis}</p>{/if}
     </div>
+  {/if}
+  {#if lieder}
+    <p class="hinweis" role="status">{anzahlLieder > 0 ? T.auswahl.lieder(anzahlLieder) : T.auswahl.keineLieder}</p>
   {/if}
 </fieldset>
 
@@ -112,7 +118,7 @@
 </fieldset>
 {/if}
 
-{#if einstellungen.uebung === 'noten'}
+{#if einstellungen.uebung !== 'handzeichen'}
   <fieldset>
     <legend>{T.auswahl.schluessel}</legend>
     <p class="hinweis">{T.auswahl.schluesselHinweis}</p>
@@ -139,10 +145,14 @@
 
 <fieldset>
   <legend>{T.auswahl.tempo}</legend>
-  <label class="tempo">
-    <input type="range" min={TEMPO.min} max={TEMPO.max} step="5" bind:value={einstellungen.tempo} />
-    <span>{einstellungen.tempo} {T.auswahl.tempoEinheit}</span>
-  </label>
+  {#if lieder}
+    <p class="hinweis">{T.auswahl.liedTempo}</p>
+  {:else}
+    <label class="tempo">
+      <input type="range" min={TEMPO.min} max={TEMPO.max} step="5" bind:value={einstellungen.tempo} />
+      <span>{einstellungen.tempo} {T.auswahl.tempoEinheit}</span>
+    </label>
+  {/if}
 </fieldset>
 
 <p><button type="button" class="knopf" disabled={!gueltig} onclick={starte}>{T.auswahl.los}</button></p>

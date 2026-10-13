@@ -1,10 +1,14 @@
-// Selbstbewertungen beider Übungen mit Datum – rein lokal gespeichert.
-// Quoten sind silbengewichtet: jede Silbe einer bewerteten Folge zählt mit dem Ergebnis der Folge.
+// Selbstbewertungen aller Übungen mit Datum – rein lokal gespeichert.
+// Bei „Handzeichen“ und „Noten“ sind die Quoten silbengewichtet: jede Silbe einer bewerteten Folge zählt mit dem
+// Ergebnis der Folge. Bei „Lieder“ zählt jedes Lied einmal; eine Silbenquote gibt es dort nicht.
 
 import { SILBEN, type SilbenId } from './theorie';
 
-export type Uebung = 'handzeichen' | 'noten';
-export const UEBUNGEN: Uebung[] = ['handzeichen', 'noten'];
+export type Uebung = 'handzeichen' | 'noten' | 'lieder';
+export const UEBUNGEN: Uebung[] = ['handzeichen', 'noten', 'lieder'];
+/** Übungen mit Quote pro Silbe */
+export type SilbenUebung = Exclude<Uebung, 'lieder'>;
+export const SILBEN_UEBUNGEN: SilbenUebung[] = ['handzeichen', 'noten'];
 
 export interface Zaehler {
   richtig: number;
@@ -16,20 +20,30 @@ export interface Eintrag {
   /** Tag seit 1970-01-01 (lokale Zeit) */
   tag: number;
   uebung: Uebung;
+  /** bei „Lieder“ leer */
   silben: SilbenId[];
   richtig: boolean;
+  /** Lied-Id bei „Lieder“ */
+  lied?: string;
 }
 
 export interface Statistik {
   version: 3;
   eintraege: Eintrag[];
   /** Verdichtete Altdaten (älter als 52 Wochen bzw. aus Version 2) – zählen nur in den Quoten. */
-  summen: Record<Uebung, Partial<Record<SilbenId, Zaehler>>>;
+  summen: Record<SilbenUebung, Partial<Record<SilbenId, Zaehler>>>;
+  /** Verdichtete Lieder-Bewertungen */
+  liedSumme: Zaehler;
 }
 
 export const AUFBEWAHRUNG_WOCHEN = 52;
 
-export const leereStatistik = (): Statistik => ({ version: 3, eintraege: [], summen: { handzeichen: {}, noten: {} } });
+export const leereStatistik = (): Statistik => ({
+  version: 3,
+  eintraege: [],
+  summen: { handzeichen: {}, noten: {} },
+  liedSumme: { richtig: 0, gesamt: 0 },
+});
 
 export function heute(datum = new Date()): number {
   return Math.floor((datum.getTime() - datum.getTimezoneOffset() * 60_000) / 86_400_000);
@@ -55,20 +69,28 @@ export function verdichte(stat: Statistik, jetzt = heute()): Statistik {
   const alt = stat.eintraege.filter((e) => e.tag < grenze);
   if (alt.length === 0) return stat;
   const summen = { handzeichen: { ...stat.summen.handzeichen }, noten: { ...stat.summen.noten } };
-  for (const e of alt) for (const id of e.silben) addiere(summen[e.uebung], id, e.richtig);
-  return { ...stat, eintraege: stat.eintraege.filter((e) => e.tag >= grenze), summen };
+  const liedSumme = { ...stat.liedSumme };
+  for (const e of alt) {
+    if (e.uebung === 'lieder') {
+      liedSumme.gesamt += 1;
+      if (e.richtig) liedSumme.richtig += 1;
+    } else for (const id of e.silben) addiere(summen[e.uebung], id, e.richtig);
+  }
+  return { ...stat, eintraege: stat.eintraege.filter((e) => e.tag >= grenze), summen, liedSumme };
 }
 
 /** Übernimmt gespeicherte Daten; Version 2 ({ treffer }) wird zu Summen der Handzeichen-Übung. */
 export function migriere(roh: unknown): Statistik {
   const daten = roh as Partial<Statistik> & { treffer?: Partial<Record<SilbenId, Zaehler>> };
-  if (daten?.version === 3 && Array.isArray(daten.eintraege) && daten.summen) return daten as Statistik;
+  if (daten?.version === 3 && Array.isArray(daten.eintraege) && daten.summen) {
+    return { ...(daten as Statistik), liedSumme: daten.liedSumme ?? { richtig: 0, gesamt: 0 } };
+  }
   const stat = leereStatistik();
   if (daten?.treffer) stat.summen.handzeichen = { ...daten.treffer };
   return stat;
 }
 
-export function proSilbe(stat: Statistik, uebung: Uebung): Partial<Record<SilbenId, Zaehler>> {
+export function proSilbe(stat: Statistik, uebung: SilbenUebung): Partial<Record<SilbenId, Zaehler>> {
   const ergebnis: Partial<Record<SilbenId, Zaehler>> = {};
   for (const [id, z] of Object.entries(stat.summen[uebung]) as [SilbenId, Zaehler][]) ergebnis[id] = { ...z };
   for (const e of stat.eintraege) {
@@ -78,7 +100,13 @@ export function proSilbe(stat: Statistik, uebung: Uebung): Partial<Record<Silben
   return ergebnis;
 }
 
+/** Gesamtquote: bei „Lieder“ je Lied, sonst silbengewichtet. */
 export function gesamt(stat: Statistik, uebung: Uebung): Zaehler {
+  if (uebung === 'lieder') {
+    return stat.eintraege
+      .filter((e) => e.uebung === 'lieder')
+      .reduce((s, e) => ({ richtig: s.richtig + (e.richtig ? 1 : 0), gesamt: s.gesamt + 1 }), { ...stat.liedSumme });
+  }
   return Object.values(proSilbe(stat, uebung)).reduce<Zaehler>(
     (s, z) => ({ richtig: s.richtig + z!.richtig, gesamt: s.gesamt + z!.gesamt }),
     { richtig: 0, gesamt: 0 },
@@ -100,8 +128,9 @@ export function wochenverlauf(stat: Statistik, anzahl: number, jetzt = heute()):
     const werte = {} as Woche['werte'];
     for (const u of UEBUNGEN) {
       const drin = stat.eintraege.filter((e) => e.uebung === u && e.tag >= beginn && e.tag < beginn + 7);
-      const silben = drin.reduce((n, e) => n + e.silben.length, 0);
-      const richtig = drin.reduce((n, e) => n + (e.richtig ? e.silben.length : 0), 0);
+      const gewicht = (e: Eintrag) => (u === 'lieder' ? 1 : e.silben.length);
+      const silben = drin.reduce((n, e) => n + gewicht(e), 0);
+      const richtig = drin.reduce((n, e) => n + (e.richtig ? gewicht(e) : 0), 0);
       werte[u] = { quote: silben > 0 ? richtig / silben : null, folgen: drin.length };
     }
     wochen.push({ beginn, werte });

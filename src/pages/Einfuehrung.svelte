@@ -50,12 +50,20 @@
   Notensingen hilft.
 </p>
 
+<h2>Das Wichtigste: echte Musik auf Silben</h2>
+<p>
+  Am meisten bringt es, <strong>so viel Musik wie möglich auf Solmisationssilben</strong> zu singen. Nimm Lieder, die du schon
+  kennst, und sing sie auf do-re-mi statt mit Text – so wird das System zu deinem eigenen. In der Übung
+  „<a href={href('ueben')}>Lieder singen</a>“ bekommst du dafür bekannte Lieder vorgeschlagen und kannst danach die Lösung anhören.
+</p>
+
 <h2>So übst du</h2>
 <ol>
   <li>Schau dir die <a href={href('tafel')}>Handzeichen-Tafel</a> an und hör dir die Töne an.</li>
   <li>Starte mit <a href={href('ueben')}>Stufe 1</a> (so – mi) und arbeite dich hoch – du kannst jederzeit springen.</li>
   <li>Sing laut mit, sobald die Zeichen erscheinen – auch wenn niemand zuhört. 🙂</li>
   <li>Hör dir danach die Lösung an und sei ehrlich zu dir: Die Statistik zeigt dir, bei welchen Silben es noch hakt.</li>
+  <li>Sing zwischendurch Lieder, die du kennst, auf Silben – in der App und auch einfach so im Alltag.</li>
 </ol>
 
 <style>

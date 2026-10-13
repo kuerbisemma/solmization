@@ -88,7 +88,7 @@
     <div class="tooltip" style:left="{tooltipLinks}%" class:rechts={tooltipLinks > 60}>
       <strong>Woche ab {datum(w.beginn)}</strong>
       {#each UEBUNGEN as u (u)}
-        <span><i class="punkt {u}"></i>{T.uebungen[u].titel}: {prozent(w.werte[u].quote)} ({T.statistik.folgen(w.werte[u].folgen)})</span>
+        <span><i class="punkt {u}"></i>{T.uebungen[u].titel}: {prozent(w.werte[u].quote)} ({T.statistik.anzahl(u, w.werte[u].folgen)})</span>
       {/each}
     </div>
   {/if}
@@ -142,6 +142,9 @@
   .punkt.noten {
     background: var(--serie-noten);
   }
+  .punkt.lieder {
+    background: var(--serie-lieder);
+  }
   .diagramm {
     position: relative;
   }
@@ -177,6 +180,9 @@
   .linie.noten {
     stroke: var(--serie-noten);
   }
+  .linie.lieder {
+    stroke: var(--serie-lieder);
+  }
   .markierung {
     stroke: var(--flaeche);
     stroke-width: 2;
@@ -186,6 +192,9 @@
   }
   .markierung.noten {
     fill: var(--serie-noten);
+  }
+  .markierung.lieder {
+    fill: var(--serie-lieder);
   }
   .treffer {
     fill: transparent;

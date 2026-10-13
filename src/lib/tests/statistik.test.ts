@@ -42,4 +42,22 @@ describe('Statistik', () => {
     expect(v.eintraege).toHaveLength(1);
     expect(proSilbe(v, 'noten').la).toEqual({ richtig: 1, gesamt: 2 });
   });
+
+  it('zählt Lieder je Lied, ohne Silbenquote, und verdichtet sie', () => {
+    let s = leereStatistik();
+    s = verbuche(s, { tag: MONTAG - 60 * 7, uebung: 'lieder', silben: [], richtig: true, lied: 'entchen' });
+    s = verbuche(s, { tag: MONTAG, uebung: 'lieder', silben: [], richtig: true, lied: 'jakob' });
+    s = verbuche(s, { tag: MONTAG, uebung: 'lieder', silben: [], richtig: false, lied: 'fuchs' });
+    expect(gesamt(s, 'lieder')).toEqual({ richtig: 2, gesamt: 3 });
+    const v = verdichte(s, MONTAG);
+    expect(v.eintraege).toHaveLength(2);
+    expect(gesamt(v, 'lieder')).toEqual({ richtig: 2, gesamt: 3 });
+    expect(wochenverlauf(v, 1, MONTAG)[0].werte.lieder).toEqual({ quote: 0.5, folgen: 2 });
+    expect(gesamt(v, 'handzeichen')).toEqual({ richtig: 0, gesamt: 0 });
+  });
+
+  it('ergänzt gespeicherte Daten ohne Lieder-Summe', () => {
+    const s = migriere({ version: 3, eintraege: [], summen: { handzeichen: {}, noten: {} } });
+    expect(gesamt(s, 'lieder')).toEqual({ richtig: 0, gesamt: 0 });
+  });
 });

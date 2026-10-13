@@ -26,8 +26,14 @@
 
 <h2>Notenschrift</h2>
 <p>
-  Notenschlüssel, Vorzeichen und Notenköpfe stammen aus <strong>Bravura</strong> (Steinberg Media Technologies GmbH) unter der
+  Notenschlüssel, Vorzeichen, Notenköpfe, Fähnchen, Pausen und Taktangaben stammen aus <strong>Bravura</strong> (Steinberg Media Technologies GmbH) unter der
   <a href="https://openfontlicense.org">SIL Open Font License 1.1</a>. Verwendet wird ein umbenannter Auszug („Solmi Noten“).
+</p>
+
+<h2>Lieder</h2>
+<p>
+  Die Melodien der Übung „Lieder singen“ sind gemeinfreie Volks-, Kinder- und Traditionals, für solmization als Silben
+  aufgeschrieben.
 </p>
 
 <h2>Quellcode</h2>

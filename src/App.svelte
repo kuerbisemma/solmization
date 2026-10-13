@@ -2,11 +2,13 @@
   import { useRegisterSW } from 'virtual:pwa-register/svelte';
   import { href, route } from './lib/router.svelte';
   import { T } from './lib/texte';
+  import { einstellungen } from './lib/zustand.svelte';
   import Start from './pages/Start.svelte';
   import Einfuehrung from './pages/Einfuehrung.svelte';
   import Tafel from './pages/Tafel.svelte';
   import Ueben from './pages/Ueben.svelte';
   import Singen from './pages/Singen.svelte';
+  import LiederSingen from './pages/LiederSingen.svelte';
   import Statistik from './pages/Statistik.svelte';
   import Impressum from './pages/Impressum.svelte';
   import Datenschutz from './pages/Datenschutz.svelte';
@@ -25,7 +27,7 @@
     datenschutz: Datenschutz,
     credits: Credits,
   };
-  const Aktuell = $derived(SEITEN[route.seite]);
+  const Aktuell = $derived(route.seite === 'singen' && einstellungen.uebung === 'lieder' ? LiederSingen : SEITEN[route.seite]);
 </script>
 
 <header class="kopf">
